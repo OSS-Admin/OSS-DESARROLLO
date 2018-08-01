@@ -17,6 +17,7 @@
         android:layout_height="@dimen/perfil_image_size"
         android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/userprofile"
         app:border_color="@android:color/white"
         app:border_width="1dp" />
 
@@ -32,10 +33,9 @@
     <!-- Correo de la cuenta -->
     <TextView
         android:id="@+id/email"
-        style="@style/Widget.AppCompat.Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="juanaperez01@gmail.com"
+        android:text="Manu9osorio@hotmail.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
