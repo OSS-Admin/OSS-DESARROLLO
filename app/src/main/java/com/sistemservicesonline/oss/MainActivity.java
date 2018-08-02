@@ -53,16 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
-
-                        //Para evitar que el elemento actual se seleccione una y otra vez
-                        if (menuItem.isChecked()){
-                            drawerLayout.closeDrawer(GravityCompat.START);
-                            return false;
-                        }
 
                         if (id == R.id.nav_cuenta) {
                             startActivity(new Intent(getApplicationContext(), PerfilActivity.class));

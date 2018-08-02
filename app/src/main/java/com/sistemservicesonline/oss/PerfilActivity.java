@@ -56,12 +56,6 @@ public class PerfilActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
 
-                        //Para evitar que el elemento actual se seleccione una y otra vez
-                        if (menuItem.isChecked()){
-                            drawerLayout.closeDrawer(GravityCompat.START);
-                            return false;
-                        }
-
                         if (id == R.id.nav_home) {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }

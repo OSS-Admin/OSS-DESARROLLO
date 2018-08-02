@@ -20,7 +20,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/startblue"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/cuenta_item"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
