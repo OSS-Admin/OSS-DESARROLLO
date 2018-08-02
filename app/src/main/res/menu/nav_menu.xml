@@ -14,15 +14,9 @@
             android:title="@string/cuenta_item" />
 
         <item
-            android:id="@+id/nav_servicios"
-            android:checked="true"
-            android:icon="@drawable/ic_buscar"
-            android:title="@string/servicios_item" />
-
-        <item
             android:id="@+id/nav_misservicios"
             android:checked="true"
-            android:icon="@drawable/ic_servicios"
+            android:icon="@drawable/ic_buscar"
             android:title="@string/misservicios_item" />
 
         <item

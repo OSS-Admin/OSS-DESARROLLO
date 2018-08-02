@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
             getMenuInflater().inflate(R.menu.nav_menu, menu);
             return true;
         }
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder mensaje=new AlertDialog.Builder(this);
+        AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
         mensaje.setTitle("¿Desea Salir de la Aplicacion?");
         mensaje.setCancelable(false);
         mensaje.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
