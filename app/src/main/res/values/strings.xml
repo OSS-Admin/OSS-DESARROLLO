@@ -6,10 +6,10 @@
 
     <string name="home_item">Inicio</string>
     <string name="servicios_item">Servicios</string>
-    <string name="misservicios_item">Mis Servicios</string>
+    <string name="misservicios_item">Mis servicios</string>
     <string name="favoritos_item">Favoritos</string>
     <string name="conversaciones_item">Conversaciones</string>
-    <string name="cuenta_item">Cuenta</string>
+    <string name="cuenta_item">Mi perfil</string>
     <string name="log_out_item">Cerrar Sesión</string>
     <string name="configuracion_item">Configuración</string>
 </resources>

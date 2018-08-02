@@ -1,19 +1,17 @@
 package com.sistemservicesonline.oss;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity {
     /**
      * Instancia del drawer
      */
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_perfil);
 
         setToolbar(); // Setear Toolbar como action bar
 
@@ -64,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                         }
 
-                        if (id == R.id.nav_cuenta) {
-                            startActivity(new Intent(getApplicationContext(), PerfilActivity.class));
+                        if (id == R.id.nav_home) {
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
 
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -97,20 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder mensaje=new AlertDialog.Builder(this);
-        mensaje.setTitle("¿Desea Salir de la Aplicacion?");
-        mensaje.setCancelable(false);
-        mensaje.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        mensaje.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        mensaje.show();
+        super.onBackPressed();
+        //codigo adicional
+        this.finish();
     }
 }
