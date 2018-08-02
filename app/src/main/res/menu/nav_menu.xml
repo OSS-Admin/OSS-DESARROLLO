@@ -16,7 +16,7 @@
         <item
             android:id="@+id/nav_misservicios"
             android:checked="true"
-            android:icon="@drawable/ic_buscar"
+            android:icon="@drawable/ic_servicios"
             android:title="@string/misservicios_item" />
 
         <item

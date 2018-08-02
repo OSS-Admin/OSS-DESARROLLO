@@ -49,12 +49,17 @@
                 android:background="@color/startblue"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_marginTop="20dp"
+                <!-- Imagen de perfil -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circle_image"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/userprofile"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/userprofile"
+                    android:layout_marginTop="20dp"
+                    app:border_color="@android:color/white"
+                    app:border_width="1dp" />
 
                 <TextView
                     android:id="@+id/TextViewNombreCompleto"
