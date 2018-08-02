@@ -8,13 +8,42 @@
             android:icon="@drawable/ic_inicio"
             android:title="@string/home_item" />
 
+        <item
+            android:id="@+id/nav_servicios"
+            android:checked="true"
+            android:icon="@drawable/ic_buscar"
+            android:title="@string/servicios_item" />
+
+        <item
+            android:id="@+id/nav_misservicios"
+            android:checked="true"
+            android:icon="@drawable/ic_servicios"
+            android:title="@string/misservicios_item" />
+
+        <item
+            android:id="@+id/nav_misfavoritos"
+            android:checked="true"
+            android:icon="@drawable/ic_favoritos"
+            android:title="@string/favoritos_item" />
+
+        <item
+            android:id="@+id/nav_conversaciones"
+            android:checked="true"
+            android:icon="@drawable/ic_conversaciones"
+            android:title="@string/conversaciones_item" />
+
         <!-- Sección de configuración -->
         <item
             android:id="@+id/configuration_section"
             android:title="@string/configuracion_item">
             <menu>
                 <item
-                    android:id="@+id/nav_log_out"
+                    android:id="@+id/nav_cuenta"
+                    android:icon="@drawable/ic_cuenta"
+                    android:title="@string/cuenta_item" />
+
+                <item
+                    android:id="@+id/nav_cerrarsesion"
                     android:icon="@android:drawable/ic_lock_power_off"
                     android:title="@string/log_out_item" />
             </menu>

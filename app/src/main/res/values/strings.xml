@@ -5,7 +5,11 @@
     <string name="action_settings">Settings</string>
 
     <string name="home_item">Inicio</string>
-    <string name="productos_item">Servicios</string>
+    <string name="servicios_item">Servicios</string>
+    <string name="misservicios_item">Mis Servicios</string>
+    <string name="favoritos_item">Favoritos</string>
+    <string name="conversaciones_item">Conversaciones</string>
+    <string name="cuenta_item">Cuenta</string>
     <string name="log_out_item">Cerrar Sesión</string>
     <string name="configuracion_item">Configuración</string>
 </resources>
