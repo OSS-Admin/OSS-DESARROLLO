@@ -8,275 +8,397 @@
     android:fitsSystemWindows="true"
     tools:context=".PerfilActivity">
 
-    <!-- Contenido Principal -->
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <!-- Contenido Principal -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/startblue"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/home_item">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="6dp">
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_configuraciones"/>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="325dp">
-
-            <LinearLayout
+            <!-- LinearLayout para la zona del toolbar. -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="?attr/actionBarSize"
                 android:background="@color/startblue"
-                android:orientation="vertical">
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/home_item">
 
-                <!-- Imagen de perfil -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circle_image"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/userprofile"
-                    android:layout_marginTop="20dp"
-                    app:border_color="@android:color/white"
-                    app:border_width="1dp" />
-
-                <TextView
-                    android:id="@+id/TextViewNombreCompleto"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_horizontal"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Manuel Enrique Osorio Ochoa"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="21sp"/>
+                    android:padding="16dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="6dp">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_configuraciones"/>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="400dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="220dp">
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+            <!-- RelativeLayout para la zona de Imagen de perfil del usuario. -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="325dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:layout_height="270dp"
+                    android:background="@color/startblue"
+                    android:orientation="vertical">
+
+                    <!-- Imagen de perfil -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circle_image"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/userprofile"
+                        android:layout_marginTop="20dp"
+                        app:border_color="@android:color/white"
+                        app:border_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/TextViewNombreCompleto"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manuel Enrique Osorio Ochoa"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="21sp"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="400dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="220dp">
 
                     <LinearLayout
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Servicios"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                        <LinearLayout
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:background="@color/white">
 
-                        <TextView
-                            android:id="@+id/TextViewNumeroServicios"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="150"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Servicios"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                            <TextView
+                                android:id="@+id/TextViewNumeroServicios"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="150"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:background="@color/white">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Calificación"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                            <TextView
+                                android:id="@+id/TextViewCalificacion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5.0"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:background="@color/white">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Estado"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                            <TextView
+                                android:id="@+id/TextViewEstado"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Disponible"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/startblue"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <!-- LinearLayout para la zona de datos personales del usuario. -->
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_correo" />
+
+                    <TextView
+                        android:id="@+id/TextViewCorreoElectronico"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="Manu9osorio@hotmail.com"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_celular" />
+
+                    <TextView
+                        android:id="@+id/TextViewCelular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="+57 3024277923"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_telefono" />
+
+                    <TextView
+                        android:id="@+id/TextViewTelefono"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="6906263"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="25dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_ciudad" />
+
+                    <TextView
+                        android:id="@+id/TextViewCiudad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="Cartagena de Indias, Colombia"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/ButtonContactar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Contactar"
+                    android:background="@drawable/buttonstylegradient"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <!-- Separador. -->
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/separador" />
+
+            <!-- Relative para la zona de comentarios. -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="325dp"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp"
+                    android:orientation="vertical">
+
+                    <!-- Imagen de perfil -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circle_imagecoment"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/userprofile"
+                        android:layout_marginTop="10dp"
+                        app:border_color="@android:color/white"
+                        app:border_width="1dp" />
+
+                    <!-- Nombre de Usuairo -->
+                    <TextView
+                        android:id="@+id/TextViewNombreCompletocoment"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manuel Enrique Osorio Ochoa"
+                        android:textColor="@color/startblue"
+                        android:textStyle="bold"
+                        android:textSize="21sp"/>
+
+                    <!-- RatingBar de Usuairo -->
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"/>
+
+                    <!-- Espacio de comentario de Usuairo -->
                     <LinearLayout
-                        android:gravity="center"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Calificación"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp">
 
-                        <TextView
-                            android:id="@+id/TextViewCalificacion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5.0"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/EditTextNombreCompleto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/grey"
+                                android:hint="Escribe una reseña o comentario"
+                                android:singleLine="false"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
+                    <!-- Enviar comentario de Usuairo -->
                     <LinearLayout
-                        android:gravity="center"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Estado"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp"
+                            android:gravity="right">
 
-                        <TextView
-                            android:id="@+id/TextViewEstado"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Disponible"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@color/startblue"/>
+                            <TextView
+                                android:id="@+id/TextViewEnviarComentario"
+                                android:layout_marginTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enviar"
+                                android:textColor="@color/startblue"
+                                android:textStyle="bold"
+                                android:textSize="15sp"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="25dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_correo" />
-
-                <TextView
-                    android:id="@+id/TextViewCorreoElectronico"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="Manu9osorio@hotmail.com"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="25dp"
-                android:layout_marginTop="15dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_celular" />
-
-                <TextView
-                    android:id="@+id/TextViewCelular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="+57 3024277923"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="25dp"
-                android:layout_marginTop="15dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_telefono" />
-
-                <TextView
-                    android:id="@+id/TextViewTelefono"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="6906263"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="25dp"
-                android:layout_marginTop="15dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_ciudad" />
-
-                <TextView
-                    android:id="@+id/TextViewCiudad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="Cartagena de Indias, Colombia"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/ButtonContactar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Contactar"
-            android:background="@drawable/buttonstylegradient"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
+    </ScrollView>
 
     <!-- Menú Deslizante -->
     <android.support.design.widget.NavigationView

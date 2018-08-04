@@ -10,13 +10,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RatingBar;
 
 public class PerfilActivity extends AppCompatActivity {
     /**
      * Instancia del drawer
      */
     private DrawerLayout drawerLayout;
-
+    RatingBar ratingBar;
     /**
      * Titulo inicial del drawer
      */
@@ -28,6 +29,8 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         setToolbar(); // Setear Toolbar como action bar
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
