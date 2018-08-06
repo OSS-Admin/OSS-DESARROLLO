@@ -15,13 +15,18 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
 
-        <ImageView
+        <!-- Imagen de Logo -->
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgView_logo"
+            android:layout_gravity="center_horizontal"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/user" />
+            android:src="@drawable/user"
+            android:layout_marginTop="20dp"
+            android:adjustViewBounds="true"
+            app:border_color="@android:color/white"
+            app:border_width="1dp" />
 
         <RelativeLayout
             android:id="@+id/rellay1"
@@ -36,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Iniciar Sesión"
+                android:text="OSS"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
