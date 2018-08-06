@@ -11,4 +11,9 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="RadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/startblue</item>
+        <item name="colorControlActivated">@color/startblue</item>
+    </style>
+
 </resources>

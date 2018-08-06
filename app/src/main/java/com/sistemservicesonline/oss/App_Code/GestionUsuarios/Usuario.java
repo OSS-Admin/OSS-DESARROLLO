@@ -3,7 +3,6 @@ package com.sistemservicesonline.oss.App_Code.GestionUsuarios;
 import java.util.Date;
 
 public class Usuario {
-    public String sIdUsuario;
     public String sTipoIdentificacion;
     public String sIdentificacion;
     public String sPrimerNombre;
@@ -24,12 +23,12 @@ public class Usuario {
     public String sProfesion;
     public String sNombreCompleto;
     public boolean bActivo;
+    public String sContrasena;
 
     public Usuario() {
     }
 
-    public Usuario(String sIdUsuario, String sTipoIdentificacion, String sIdentificacion, String sPrimerNombre, String sSegundoNombre, String sPrimerApellido, String sSegundoApellido, Date dFechaNacimiento, int iEdad, String sDepartamento, String sCiudad, String sDireccion, String sCelular, String sTelefono, String sGenero, String sEstadoCivil, String sCodUsuarioAplicacion, String sEmail, String sProfesion, String sNombreCompleto, boolean bActivo) {
-        this.sIdUsuario = sIdUsuario;
+    public Usuario(String sTipoIdentificacion, String sIdentificacion, String sPrimerNombre, String sSegundoNombre, String sPrimerApellido, String sSegundoApellido, Date dFechaNacimiento, int iEdad, String sDepartamento, String sCiudad, String sDireccion, String sCelular, String sTelefono, String sGenero, String sEstadoCivil, String sCodUsuarioAplicacion, String sEmail, String sProfesion, String sNombreCompleto, boolean bActivo, String sContrasena) {
         this.sTipoIdentificacion = sTipoIdentificacion;
         this.sIdentificacion = sIdentificacion;
         this.sPrimerNombre = sPrimerNombre;
@@ -50,14 +49,7 @@ public class Usuario {
         this.sProfesion = sProfesion;
         this.sNombreCompleto = sNombreCompleto;
         this.bActivo = bActivo;
-    }
-
-    public String getsIdUsuario() {
-        return sIdUsuario;
-    }
-
-    public void setsIdUsuario(String sIdUsuario) {
-        this.sIdUsuario = sIdUsuario;
+        this.sContrasena = sContrasena;
     }
 
     public String getsTipoIdentificacion() {
@@ -218,5 +210,13 @@ public class Usuario {
 
     public void setbActivo(boolean bActivo) {
         this.bActivo = bActivo;
+    }
+
+    public String getsContrasena() {
+        return sContrasena;
+    }
+
+    public void setsContrasena(String sContrasena) {
+        this.sContrasena = sContrasena;
     }
 }

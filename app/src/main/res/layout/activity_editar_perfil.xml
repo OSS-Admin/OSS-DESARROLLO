@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    tools:context=".RegistrarseActivity">
+    tools:context=".Funcionales.Usuarios.EditarPerfilActivity">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -29,7 +29,7 @@
                 android:background="@color/startblue"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/Registro" />
+                app:title="@string/EditarPerfil" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

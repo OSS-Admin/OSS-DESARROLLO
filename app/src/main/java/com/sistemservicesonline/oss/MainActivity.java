@@ -10,19 +10,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
-    /**
-     * Instancia del drawer
-     */
-    private DrawerLayout drawerLayout;
+import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
 
-    /**
-     * Titulo inicial del drawer
-     */
-    private String drawerTitle;
+public class MainActivity extends AppCompatActivity {
+
+    private String gsToken = "";
+    private boolean bRegistro = false;
+
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+        }
+
+        gsToken = getIntent().getExtras().getString("sToken") != null ? getIntent().getExtras().getString("sToken").toString() : "";
+        bRegistro = Boolean.parseBoolean(getIntent().getExtras().getString("bRegistro"));
+        if (bRegistro) {
+            Intent ObjIntent = new Intent(MainActivity.this, EditarPerfilActivity.class);
+            ObjIntent.putExtra("sToken", gsToken);
+            startActivity(ObjIntent);
         }
     }
 

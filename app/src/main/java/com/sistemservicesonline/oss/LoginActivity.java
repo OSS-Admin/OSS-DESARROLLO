@@ -10,12 +10,24 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.sistemservicesonline.oss.App_Code.Conexion;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class LoginActivity extends AppCompatActivity {
 
-    RelativeLayout rellay1, rellay2;
-    EditText ETUsuario, ETContraseña;
-    Button btn_IniciarSesion;
+    RelativeLayout
+            rellay1,
+            rellay2;
 
+    EditText
+            ETUsuario,
+            ETContraseña;
+
+    Button
+            btn_IniciarSesion,
+            btn_Registrarse;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -25,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
             rellay2.setVisibility(View.VISIBLE);
         }
     };
+
+    Conexion ObjConexion = new Conexion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                 ValidarUsuario(v);
             }
         });
+
+        btn_Registrarse = (Button)findViewById(R.id.btn_Registrarse);
+        btn_Registrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegistrarseActivity.class));
+            }
+        });
     }
 
     public void ValidarUsuario (View v){
@@ -57,12 +79,25 @@ public class LoginActivity extends AppCompatActivity {
             sPassword = "Mosorio987";
             /*Para pruebas*/
 
+            String sQuery = "SELECT TOP 1 UA.CodUserAplication AS CodigoUsuario FROM Usuarios.UsuarioAplicacion UA  WITH(NOLOCK) INNER JOIN Usuarios.Usuario U WITH(NOLOCK) ON U.CodUsuarioAplicacion = UA.CodUserAplication WHERE UA.Password = '" + sPassword + "' AND (UA.Usuario = '" + sUsuario + "' OR U.Email = '" + sUsuario +  "')";
+
             if (sUsuario.equals("") || sPassword.equals("")){
                 Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show();
             } else {
-                Intent ObjIntent = new Intent (v.getContext(), MainActivity.class);
-                startActivityForResult(ObjIntent, 0);
+                Statement ObjStatement = ObjConexion.ConexionDB().createStatement();
+                ResultSet ObjResultSet = ObjStatement.executeQuery(sQuery);
+
+                if (ObjResultSet != null){
+                    while (ObjResultSet.next()){
+                        Intent ObjIntent = new Intent (v.getContext(), MainActivity.class);
+                        ObjIntent.putExtra("Token", ObjResultSet.getString("CodigoUsuario"));
+                        startActivityForResult(ObjIntent, 0);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "El Usuario o Contraseña es incorrecta, por favor verifique", Toast.LENGTH_SHORT).show();
+                }
             }
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
