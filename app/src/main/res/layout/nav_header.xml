@@ -23,19 +23,19 @@
 
     <!-- Nombre de Usuario -->
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/TextViewNombreUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manuel Enrique Osorio Ochoa"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold" />
 
     <!-- Correo de la cuenta -->
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/TextViewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manu9osorio@hotmail.com"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

@@ -71,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void ValidarUsuario (View v){
         try {
-            String sUsuario = ETUsuario.getText().toString();
-            String sPassword = ETContraseña.getText().toString();
+            String sUsuario = ETUsuario.getText() != null ? ETUsuario.getText().toString() : "";
+            String sPassword = ETContraseña.getText() != null ? ETContraseña.getText().toString() : "";
 
             /*Para pruebas*/
             sUsuario = "Mosorio";

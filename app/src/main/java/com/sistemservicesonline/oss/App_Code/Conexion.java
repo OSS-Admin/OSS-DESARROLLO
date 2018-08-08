@@ -15,7 +15,7 @@ public class Conexion {
             StrictMode.setThreadPolicy(ObjPolicy);
 
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            ObjConnection = DriverManager.getConnection("jdbc:jtds:sqlServer://192.52.242.142/PRODUCCION;databaseName=OSS;user=sa;password=sa1_xxxx;");
+            ObjConnection = DriverManager.getConnection("jdbc:jtds:sqlServer://BuscaEmpleo.mssql.somee.com/BuscaEmpleo;databaseName=BuscaEmpleo;user=Mosorio_SQLLogin_1;password=glzyhtkie7;");
         } catch (Exception e){
 
         }

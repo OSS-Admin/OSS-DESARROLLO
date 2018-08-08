@@ -11,15 +11,25 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sistemservicesonline.oss.App_Code.Conexion;
+import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
+import com.sistemservicesonline.oss.App_Code.Utilidades;
 import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView
+            TextViewNombreCompleto,
+            TextViewEmail;
+
     private String gsToken = "";
     private boolean bRegistro = false;
-
     private DrawerLayout drawerLayout;
+    View Header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +43,38 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+        Header = navigationView.getHeaderView(0);
+        TextViewNombreCompleto = Header.findViewById(R.id.TextViewNombreUsuario);
+        TextViewEmail = Header.findViewById(R.id.TextViewEmail);
 
-        gsToken = getIntent().getExtras().getString("sToken") != null ? getIntent().getExtras().getString("sToken").toString() : "";
+        gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
         bRegistro = Boolean.parseBoolean(getIntent().getExtras().getString("bRegistro"));
         if (bRegistro) {
             Intent ObjIntent = new Intent(MainActivity.this, EditarPerfilActivity.class);
-            ObjIntent.putExtra("sToken", gsToken);
+            ObjIntent.putExtra("Token", gsToken);
             startActivity(ObjIntent);
+        } else {
+            CargarInformacionUsuario(gsToken);
+        }
+    }
+
+    public void CargarInformacionUsuario(String sToken) {
+        Utilidades ObjUtilidades = new Utilidades();
+        Usuario ObjUsuario = null;
+
+        try {
+            if (!sToken.equals("")) {
+                ObjUsuario = ObjUtilidades.ConsultarUsuario(sToken);
+
+                if (ObjUsuario != null) {
+                    TextViewNombreCompleto.setText(ObjUsuario.sNombreCompleto != null ? ObjUsuario.sNombreCompleto.toString() : "");
+                    TextViewEmail.setText(ObjUsuario.sEmail != null ? ObjUsuario.sEmail.toString() : "");
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "La sesión esta inactiva.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -61,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
-
+                        gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
                         if (id == R.id.nav_cuenta) {
-                            startActivity(new Intent(getApplicationContext(), PerfilActivity.class));
+                            Intent ObjIntent = new Intent(getApplicationContext(), PerfilActivity.class);
+                            ObjIntent.putExtra("Token", gsToken);
+                            startActivity(ObjIntent);
                         }
 
                         drawerLayout.closeDrawer(GravityCompat.START);
