@@ -5,6 +5,7 @@ import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class Utilidades {
 
@@ -45,5 +46,24 @@ public class Utilidades {
             e.printStackTrace();
         }
         return ObjUsuario;
+    }
+
+    public ArrayList ConsultarUsuarios () {
+        String sQuery = "SELECT * FROM Usuarios.Usuario";
+        ArrayList<String> lstDatos = new ArrayList<>();
+
+        try {
+            Statement ObjStatement = ObjConexion.ConexionDB().createStatement();
+            ResultSet ObjResultSet = ObjStatement.executeQuery(sQuery);
+            if (ObjResultSet != null){
+                while (ObjResultSet.next()){
+                    lstDatos.add(ObjResultSet.getString("NombreCompleto") != null ? ObjResultSet.getString("NombreCompleto").toString() : "");
+                    lstDatos.add(ObjResultSet.getString("Profesion") != null ? ObjResultSet.getString("Profesion").toString() : "");
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lstDatos;
     }
 }

@@ -13,7 +13,9 @@
         android:theme="@style/AppTheme">
 
         <!-- Activity del login -->
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,20 +26,24 @@
         <!-- Activity de registro de usuario -->
         <activity
             android:name=".RegistrarseActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoginActivity" />
 
         <!-- Activity del menu principal -->
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoginActivity" />
 
         <!-- Activity del Perfil -->
         <activity
             android:name=".PerfilActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".Funcionales.Usuarios.EditarPerfilActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".PerfilActivity" />
     </application>
 

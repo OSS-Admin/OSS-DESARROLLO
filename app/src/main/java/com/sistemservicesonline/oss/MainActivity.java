@@ -12,13 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sistemservicesonline.oss.App_Code.Conexion;
 import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import com.sistemservicesonline.oss.App_Code.Utilidades;
+import com.sistemservicesonline.oss.Funcionales.Adaptadores.AdaptadorUsuario;
 import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +31,19 @@ public class MainActivity extends AppCompatActivity {
             TextViewNombreCompleto,
             TextViewEmail;
 
+    View
+            Header;
+
+    ListView
+            ListViewUsuarios;
+
     private String gsToken = "";
     private boolean bRegistro = false;
     private DrawerLayout drawerLayout;
-    View Header;
+
+    ArrayList<Usuario> ListaUsuarios;
+
+    Utilidades ObjUtilidades = new Utilidades();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             CargarInformacionUsuario(gsToken);
         }
+
+        ListViewUsuarios = findViewById(R.id.ListViewUsuarios);
+        ListaUsuarios = ObjUtilidades.ConsultarUsuarios();
+        AdaptadorUsuario AdaptadorUsuarios = new AdaptadorUsuario(getApplicationContext(), ListaUsuarios);
+        ListViewUsuarios.setAdapter(AdaptadorUsuarios);
+
     }
 
     public void CargarInformacionUsuario(String sToken) {
