@@ -1,32 +1,34 @@
+/*
+* Fecha         : 20180726
+* Desarrollador : Manuel Enrique Osorio Ochoa
+* Proposito     : Clase para la ventana principal de la aplicación
+* © (Copyright) : OSS
+* */
 package com.sistemservicesonline.oss;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+import android.view.MenuItem;
+import android.content.Intent;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.content.DialogInterface;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.NavigationView;
 
-import com.sistemservicesonline.oss.App_Code.Conexion;
-import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import com.sistemservicesonline.oss.App_Code.Utilidades;
-import com.sistemservicesonline.oss.Funcionales.Adaptadores.AdaptadorUsuario;
+import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //region declaracion de variables
     TextView
             TextViewNombreCompleto,
             TextViewEmail;
@@ -41,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean bRegistro = false;
     private DrawerLayout drawerLayout;
 
-    ArrayList<Usuario> ListaUsuarios;
+    //endregion declaracion de variables
 
-    Utilidades ObjUtilidades = new Utilidades();
+    //region Metodos para el funcionamiento del activity
 
+     // Fecha         : 20180726
+     // Desarrollador : Manuel Enrique Osorio Ochoa
+     // Proposito     : onCreate para inicializar todos los componentes del activity para su correcto funcionamiento.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +77,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ListViewUsuarios = findViewById(R.id.ListViewUsuarios);
-        ListaUsuarios = ObjUtilidades.ConsultarUsuarios();
-        AdaptadorUsuario AdaptadorUsuarios = new AdaptadorUsuario(getApplicationContext(), ListaUsuarios);
-        ListViewUsuarios.setAdapter(AdaptadorUsuarios);
-
     }
 
+    // Fecha         : 20180726
+    // Desarrollador : Manuel Enrique Osorio Ochoa
+    // Proposito     : CargarInformacionUsuario para cargar la informacion referente al usuario que ingresó.
     public void CargarInformacionUsuario(String sToken) {
         Utilidades ObjUtilidades = new Utilidades();
         Usuario ObjUsuario = null;
@@ -98,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Fecha         : 20180726
+    // Desarrollador : Manuel Enrique Osorio Ochoa
+    // Proposito     : setToolbar para cargar la barra superior en el activity.
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Fecha         : 20180726
+    // Desarrollador : Manuel Enrique Osorio Ochoa
+    // Proposito     : setupDrawerContent para obtener el item seleccionado y asi redireccionar hacia los activitys que se seleccionen.
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -150,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Fecha         : 20180726
+    // Desarrollador : Manuel Enrique Osorio Ochoa
+    // Proposito     : onBackPressed para el cuadro de dialogo el cual pregunta si en realidad quieres salir de la aplicación.
     @Override
     public void onBackPressed() {
         AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
@@ -168,4 +181,5 @@ public class MainActivity extends AppCompatActivity {
         });
         mensaje.show();
     }
+    //endregion Metodos
 }
