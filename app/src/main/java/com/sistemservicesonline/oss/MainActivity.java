@@ -6,7 +6,15 @@
 * */
 package com.sistemservicesonline.oss;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -26,6 +34,8 @@ import com.sistemservicesonline.oss.App_Code.Utilidades;
 import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     //region declaracion de variables
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private String gsToken = "";
     private boolean bRegistro = false;
     private DrawerLayout drawerLayout;
+    int mNotificacionId = 01;
 
     //endregion declaracion de variables
 
@@ -75,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             CargarInformacionUsuario(gsToken);
         }
-
-        ListViewUsuarios = findViewById(R.id.ListViewUsuarios);
     }
 
     // Fecha         : 20180726
@@ -91,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 ObjUsuario = ObjUtilidades.ConsultarUsuario(sToken);
 
                 if (ObjUsuario != null) {
-                    TextViewNombreCompleto.setText(ObjUsuario.sNombreCompleto != null ? ObjUsuario.sNombreCompleto.toString() : "");
+                    String sNombreCompleto = ObjUsuario.sNombreCompleto != null ? ObjUsuario.sNombreCompleto.toString() : "";
+                    TextViewNombreCompleto.setText(sNombreCompleto);
                     TextViewEmail.setText(ObjUsuario.sEmail != null ? ObjUsuario.sEmail.toString() : "");
                 }
             } else {
