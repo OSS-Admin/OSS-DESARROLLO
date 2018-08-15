@@ -28,7 +28,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String sTipoIdentificacion, String sIdentificacion, String sPrimerNombre, String sSegundoNombre, String sPrimerApellido, String sSegundoApellido, Date dFechaNacimiento, int iEdad, String sDepartamento, String sCiudad, String sDireccion, String sCelular, String sTelefono, String sGenero, String sEstadoCivil, String sCodUsuarioAplicacion, String sEmail, String sProfesion, String sNombreCompleto, boolean bActivo, String sContrasena) {
+    public Usuario(String sTipoIdentificacion, String sIdentificacion, String sPrimerNombre, String sSegundoNombre, String sPrimerApellido, String sSegundoApellido, Date dFechaNacimiento, int iEdad, String sDepartamento, String sCiudad, String sDireccion, String sCelular, String sTelefono, String sGenero, String sEstadoCivil, String sCodUsuarioAplicacion, String sEmail, String sProfesion, String sNombreCompleto, boolean bActivo) {
         this.sTipoIdentificacion = sTipoIdentificacion;
         this.sIdentificacion = sIdentificacion;
         this.sPrimerNombre = sPrimerNombre;

@@ -51,22 +51,43 @@ public class Utilidades {
         return ObjUsuario;
     }
 
-    public ArrayList ConsultarUsuarios () {
-        String sQuery = "SELECT * FROM Usuarios.Usuario";
-        ArrayList<String> lstDatos = new ArrayList<>();
+    public ArrayList<Usuario> ConsultarUsuarios () {
+        String sQuery = "SELECT U.IdUsuario AS IdUsuario, UA.CodUserAplication AS CodUserAplication, TI.Nombre AS TipoIdentificacion, U.Identificacion AS Identificacion, U.PrimerNombre AS PrimerNombre, U.SegundoNombre AS SegundoNombre, U.PrimerApellido AS PrimerApellido, U.SegundoApellido AS SegundoApellido, CONVERT(VARCHAR(16),U.FechaNacimiento,120) AS FechaNacimiento, U.Edad AS Edad, G.Nombre AS Genero, EC.Nombre AS EstadoCivil, U.Celular As Celular, U.Telefono AS Telefono, U.Email AS Email, D.Nombre AS Departamento, C.Nombre AS Ciudad, U.Direccion AS Direccion, P.Nombre AS Profesion, U.Nombrecompleto AS NombreCompleto, U.Activo AS Activo FROM Usuarios.Usuario U WITH (NOLOCK) INNER JOIN Usuarios.UsuarioAplicacion UA WITH (NOLOCK) ON UA.CodUserAplication = U.CodUsuarioAplicacion LEFT JOIN Empresas.Empresa E WITH (NOLOCK) ON E.CodigoEmpresa = U.EmpresaAsociada INNER JOIN Maestros.TiposIdentificacion TI WITH (NOLOCK) ON TI.Codigo = U.TipoIdentificacion INNER JOIN Maestros.Generos G WITH (NOLOCK) ON G.Codigo = U.Genero LEFT JOIN Maestros.EstadosCiviles EC WITH (NOLOCK) ON EC.Codigo = U.EstadoCivil INNER JOIN Maestros.Departamentos D WITH (NOLOCK) ON D.Codigo = U.Departamento INNER JOIN Maestros.Ciudades C WITH (NOLOCK) ON C.Codigo = U.Ciudad INNER JOIN Maestros.Profesiones P WITH (NOLOCK) ON P.Codigo = U.Profesion";
+        SimpleDateFormat ObjSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<Usuario> lstUsuario = new ArrayList<Usuario>();
 
         try {
             Statement ObjStatement = ObjConexion.ConexionDB().createStatement();
             ResultSet ObjResultSet = ObjStatement.executeQuery(sQuery);
             if (ObjResultSet != null){
-                while (ObjResultSet.next()){
-                    lstDatos.add(ObjResultSet.getString("NombreCompleto") != null ? ObjResultSet.getString("NombreCompleto").toString() : "");
-                    lstDatos.add(ObjResultSet.getString("Profesion") != null ? ObjResultSet.getString("Profesion").toString() : "");
+                while (ObjResultSet.next()) {
+                    lstUsuario.add(new Usuario(
+                              ObjResultSet.getString("TipoIdentificacion") != null ? ObjResultSet.getString("TipoIdentificacion").toString() : ""
+                            , ObjResultSet.getString("Identificacion") != null ? ObjResultSet.getString("Identificacion").toString() : ""
+                            , ObjResultSet.getString("PrimerNombre") != null ? ObjResultSet.getString("PrimerNombre").toString() : ""
+                            , ObjResultSet.getString("SegundoNombre") != null ? ObjResultSet.getString("SegundoNombre").toString() : ""
+                            , ObjResultSet.getString("PrimerApellido") != null ? ObjResultSet.getString("PrimerApellido").toString() : ""
+                            , ObjResultSet.getString("SegundoApellido") != null ? ObjResultSet.getString("SegundoApellido").toString() : ""
+                            , ObjResultSet.getString("FechaNacimiento") != null ? ObjSimpleDateFormat.parse(ObjResultSet.getString("FechaNacimiento").toString()) : ObjSimpleDateFormat.parse("")
+                            , ObjResultSet.getString("Edad") != null ? Integer.parseInt(ObjResultSet.getString("Edad").toString()) : 0
+                            , ObjResultSet.getString("Departamento") != null ? ObjResultSet.getString("Departamento").toString() : ""
+                            , ObjResultSet.getString("Ciudad") != null ? ObjResultSet.getString("Ciudad").toString() : ""
+                            , ObjResultSet.getString("Direccion") != null ? ObjResultSet.getString("Direccion").toString() : ""
+                            , ObjResultSet.getString("Celular") != null ? ObjResultSet.getString("Celular").toString() : ""
+                            , ObjResultSet.getString("Telefono") != null ? ObjResultSet.getString("Telefono").toString() : ""
+                            , ObjResultSet.getString("Genero") != null ? ObjResultSet.getString("Genero").toString() : ""
+                            , ObjResultSet.getString("EstadoCivil") != null ? ObjResultSet.getString("EstadoCivil").toString() : ""
+                            , ObjResultSet.getString("CodUserAplication") != null ? ObjResultSet.getString("CodUserAplication").toString() : ""
+                            , ObjResultSet.getString("Email") != null ? ObjResultSet.getString("Email").toString() : ""
+                            , ObjResultSet.getString("Profesion") != null ? ObjResultSet.getString("Profesion").toString() : ""
+                            , ObjResultSet.getString("NombreCompleto") != null ? ObjResultSet.getString("NombreCompleto").toString() : ""
+                            , ObjResultSet.getString("Activo") != null ? Boolean.parseBoolean(ObjResultSet.getString("Activo").toString()) : false)
+                    );
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return lstDatos;
+        return lstUsuario;
     }
 }

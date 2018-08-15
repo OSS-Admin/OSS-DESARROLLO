@@ -6,15 +6,8 @@
 * */
 package com.sistemservicesonline.oss;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -30,10 +23,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 
+import com.sistemservicesonline.oss.App_Code.Adaptadores.Usuarios.UsuarioAdaptador;
 import com.sistemservicesonline.oss.App_Code.Utilidades;
 import com.sistemservicesonline.oss.App_Code.GestionUsuarios.Usuario;
 import com.sistemservicesonline.oss.Funcionales.Usuarios.EditarPerfilActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,10 +44,16 @@ public class MainActivity extends AppCompatActivity {
     ListView
             ListViewUsuarios;
 
+    private RecyclerView RecyclerViewUsuarios;
+    private UsuarioAdaptador UsuarioAdaptador;
+
+
     private String gsToken = "";
     private boolean bRegistro = false;
     private DrawerLayout drawerLayout;
     int mNotificacionId = 01;
+
+    Utilidades ObjUtilidades = new Utilidades();
 
     //endregion declaracion de variables
 
@@ -86,6 +87,26 @@ public class MainActivity extends AppCompatActivity {
         } else {
             CargarInformacionUsuario(gsToken);
         }
+
+
+        /*PerfilProfesional*/
+
+        /*
+        ArrayList<Usuario> LstUsuarios;
+        LstUsuarios = ObjUtilidades.ConsultarUsuarios();
+        RecyclerViewUsuarios = findViewById(R.id.RecyclerViewUsuarios);
+        RecyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(this));
+        UsuarioAdaptador = new UsuarioAdaptador(LstUsuarios);
+        RecyclerViewUsuarios.setAdapter(UsuarioAdaptador);
+        UsuarioAdaptador.setOnItemClickListener(new UsuarioAdaptador.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent ObjIntent = new Intent(MainActivity.this, PerfilActivity.class);
+                ObjIntent.putExtra("Token", gsToken);
+                startActivity(ObjIntent);
+            }
+        });*/
+
     }
 
     // Fecha         : 20180726
