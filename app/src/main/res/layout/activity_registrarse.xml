@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    tools:context=".RegistrarseActivity">
+    tools:context=".activities.RegistrarseActivity">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -84,6 +84,59 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
+                        android:text="Tipo de Identificación"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/MaterialBetterSpinnerTipoIdentificacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Seleccione" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Identificación"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextIdentificacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:maxLength="10"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:text="Nombre completo"
                         android:textAllCaps="true"
                         android:textSize="12sp"
@@ -95,7 +148,128 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
                         android:hint=""
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:inputType="textPersonName"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Fecha de Nacimiento"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextFechaNacimiento"
+                            android:layout_width="340dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/grey"
+                            android:hint=""
+                            android:singleLine="true"
+                            android:enabled="false"
+                            android:inputType="date"/>
+
+                        <ImageView
+                            android:id="@+id/ImageViewCambiarFechaNacimiento"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_calendario" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Categoría"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/MaterialBetterSpinnerCategoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Seleccione" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Género"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/MaterialBetterSpinnerGenero"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Seleccione" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Celular"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextCelular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="phone"
+                        android:maxLength="10"/>
 
                 </LinearLayout>
 
@@ -121,7 +295,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint=""
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:inputType="textEmailAddress"/>
 
                 </LinearLayout>
 
@@ -147,7 +322,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint=""
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:maxLength="50"/>
 
                 </LinearLayout>
 
@@ -173,32 +350,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint=""
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:gravity="center">
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:text="Masculíno"
-                        android:theme="@style/RadioButton"/>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:text="Femenino"
-                        android:theme="@style/RadioButton"/>
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:maxLength="50"/>
 
                 </LinearLayout>
 
@@ -207,6 +361,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_gravity="center_horizontal"
                     android:text="Registrarme"
                     android:background="@drawable/buttonstylegradient"

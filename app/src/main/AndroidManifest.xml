@@ -3,6 +3,9 @@
     package="com.sistemservicesonline.oss">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.Camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +17,7 @@
 
         <!-- Activity del login -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,26 +28,26 @@
 
         <!-- Activity de registro de usuario -->
         <activity
-            android:name=".RegistrarseActivity"
+            android:name=".activities.RegistrarseActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".activities.LoginActivity" />
 
         <!-- Activity del menu principal -->
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".activities.LoginActivity" />
 
         <!-- Activity del Perfil -->
         <activity
-            android:name=".PerfilActivity"
+            android:name=".activities.PerfilActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name=".Funcionales.Usuarios.EditarPerfilActivity"
+            android:name=".activities.EditarPerfilActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".PerfilActivity" />
+            android:parentActivityName=".activities.PerfilActivity" />
     </application>
 
 </manifest>

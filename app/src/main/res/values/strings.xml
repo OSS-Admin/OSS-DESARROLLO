@@ -15,4 +15,7 @@
     <string name="cuenta_item">Mi perfil</string>
     <string name="log_out_item">Cerrar Sesión</string>
     <string name="configuracion_item">Configuración</string>
+
+    <string name="titlulo_pickers">Obtener fecha</string>
+    <string name="formato_fecha">dd/mm/yyyy</string>
 </resources>
