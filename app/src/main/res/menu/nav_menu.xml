@@ -14,6 +14,11 @@
             android:title="@string/cuenta_item" />
 
         <item
+            android:id="@+id/nav_buscarusuarios"
+            android:icon="@drawable/ic_buscar"
+            android:title="@string/usuarios_item" />
+
+        <item
             android:id="@+id/nav_misservicios"
             android:checked="true"
             android:icon="@drawable/ic_servicios"

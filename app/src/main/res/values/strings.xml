@@ -9,6 +9,7 @@
 
     <string name="home_item">Inicio</string>
     <string name="servicios_item">Servicios</string>
+    <string name="usuarios_item">Buscar servicio</string>
     <string name="misservicios_item">Mis servicios</string>
     <string name="favoritos_item">Favoritos</string>
     <string name="conversaciones_item">Conversaciones</string>
