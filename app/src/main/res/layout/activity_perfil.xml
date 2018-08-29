@@ -85,7 +85,7 @@
 							android:layout_gravity="center_horizontal"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="Manuel Enrique Osorio Ochoa"
+							android:text=""
 							android:textColor="@color/white"
 							android:textStyle="bold"
 							android:textSize="21sp"/>
@@ -175,7 +175,7 @@
 									android:id="@+id/TextViewEstado"
 									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"
-									android:text="Disponible"
+									android:text=""
 									android:textStyle="bold"
 									android:textSize="20sp"
 									android:textColor="@color/startblue"/>
@@ -212,7 +212,7 @@
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
 							android:paddingLeft="20dp"
-							android:text="Manu9osorio@hotmail.com"
+							android:text=""
 							android:textStyle="bold"/>
 
 					</LinearLayout>
@@ -234,7 +234,7 @@
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
 							android:paddingLeft="20dp"
-							android:text="+57 3024277923"
+							android:text=""
 							android:textStyle="bold"/>
 
 					</LinearLayout>
@@ -256,7 +256,7 @@
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
 							android:paddingLeft="20dp"
-							android:text="6906263"
+							android:text=""
 							android:textStyle="bold"/>
 
 					</LinearLayout>
@@ -278,7 +278,7 @@
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
 							android:paddingLeft="20dp"
-							android:text="Cartagena de Indias, Colombia"
+							android:text=""
 							android:textStyle="bold"/>
 
 					</LinearLayout>
@@ -411,7 +411,7 @@
 				<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:background="#f0f0f0"
+                    android:background="#FFFF"
 					android:orientation="vertical" >
 
 					<LinearLayout
