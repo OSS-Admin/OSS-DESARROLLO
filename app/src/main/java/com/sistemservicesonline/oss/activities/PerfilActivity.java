@@ -174,7 +174,12 @@ public class PerfilActivity extends AppCompatActivity {
         try {
             if (LstUsuario != null) {
                 for (int i = 0; i < LstUsuario.size(); i++) {
-                    TxvNombreCompleto.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getNombreCompleto() : "");
+                    String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
+                    String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
+                    String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
+                    String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
+                    String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
+                    TxvNombreCompleto.setText(sNombreCompleto);
                     TxvEstado.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEstado() : "");
                     TxvCorreoElectronico.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail() : "");
                     TxvCelular.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "");
@@ -191,7 +196,7 @@ public class PerfilActivity extends AppCompatActivity {
         try {
             if (LstUsuarioInvitado != null) {
                 for (int i = 0; i < LstUsuarioInvitado.size(); i++) {
-                    TxvNombreCompleto.setText(LstUsuarioInvitado.get(i) != null ? LstUsuarioInvitado.get(i).getNombreCompleto() : "");
+                    //TxvNombreCompleto.setText(LstUsuarioInvitado.get(i) != null ? LstUsuarioInvitado.get(i).getNombreCompleto() : "");
                 }
             }
         } catch (Exception e) {

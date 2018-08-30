@@ -3,9 +3,7 @@ package com.sistemservicesonline.oss.appcode;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Usuario implements Serializable {
+public class Usuario {
 
     @SerializedName("CodigoUsuario")
     @Expose
@@ -16,9 +14,18 @@ public class Usuario implements Serializable {
     @SerializedName("Identificacion")
     @Expose
     private String identificacion;
-    @SerializedName("NombreCompleto")
+    @SerializedName("PrimerNombre")
     @Expose
-    private String nombreCompleto;
+    private String primerNombre;
+    @SerializedName("SegundoNombre")
+    @Expose
+    private String segundoNombre;
+    @SerializedName("PrimerApellido")
+    @Expose
+    private String primerApellido;
+    @SerializedName("SegundoApellido")
+    @Expose
+    private String segundoApellido;
     @SerializedName("FechaNacimiento")
     @Expose
     private String fechaNacimiento;
@@ -83,12 +90,36 @@ public class Usuario implements Serializable {
         this.identificacion = identificacion;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public String getPrimerNombre() {
+        return primerNombre;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
+    }
+
+    public String getSegundoNombre() {
+        return segundoNombre;
+    }
+
+    public void setSegundoNombre(String segundoNombre) {
+        this.segundoNombre = segundoNombre;
+    }
+
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
+
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
     }
 
     public String getFechaNacimiento() {

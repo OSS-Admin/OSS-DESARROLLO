@@ -1,652 +1,691 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/white"
+    android:background="@color/startblue"
     tools:context=".activities.EditarPerfilActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
 
-        <LinearLayout
-            android:id="@+id/ReciclerViewExperienciasProfesionales"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <!-- Contenido Principal -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <!-- LinearLayout para la zona del toolbar. -->
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/startblue"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@string/Perfil">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="6dp">
+
+                        <ImageView
+                            android:id="@+id/ImageViewGuardar"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_save"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.Toolbar>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/startblue"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ImageViewFotoPerfil"
+                            android:layout_width="90dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/TextViewCambiarFoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:text="Cambiar foto"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Datos personales"
+                    android:textAllCaps="true"
+                    android:textColor="@color/startblue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@color/startblue"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/ImageViewFotoPerfil"
-                        android:layout_width="90dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/user" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
 
-                    <TextView
-                        android:id="@+id/TextViewCambiarFoto"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Nombre completo"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextNombreCompleto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/grey"
+                            android:hint=""
+                            android:singleLine="true"
+                            android:inputType="textPersonName"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Tipo de Identificación"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_TipoIdentificacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Tipo de Identificación"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Identificación"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextIdentificacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint=""
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:maxLength="10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Fecha de Nacimiento"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/EditTextFechaNacimiento"
+                                android:layout_width="340dp"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/grey"
+                                android:hint=""
+                                android:singleLine="true"
+                                android:enabled="false"
+                                android:inputType="date"/>
+
+                            <ImageView
+                                android:id="@+id/ImageViewCambiarFechaNacimiento"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_calendario" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Edad"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextEdad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Edad"
+                            android:enabled="false"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Categoría"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_Categoria"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Categoría"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Género"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_Genero"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Género"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Celular"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextCelular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Celular"
+                            android:singleLine="true"
+                            android:inputType="phone"
+                            android:maxLength="10"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Telefono"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextTelefono"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Telefono"
+                            android:singleLine="true"
+                            android:inputType="phone"
+                            android:maxLength="7"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Departamento"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_Departamento"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Departamento"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Ciudad"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_Ciudad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Ciudad"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Dirección"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextDireccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Dirección"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Nombre de Usuario"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextNombreUsuario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Correo Electrónico"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Correo Electrónico"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextCorreoElectronico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Correo Electrónico"
+                            android:singleLine="true"
+                            android:inputType="textEmailAddress"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Estado"
+                            android:textAllCaps="true"
+                            android:textColor="@color/startblue"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_Estado"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Ciudad"
+                            android:textColorHint="@color/startblue" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/separador" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Perfil profesional"
+                    android:textAllCaps="true"
+                    android:textColor="@color/startblue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <Button
+                        android:id="@+id/ButtonAgregarPerfilProfesional"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:text="Cambiar foto"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:background="@drawable/buttonstylegradient"
+                        android:text="Añadir"
+                        android:textColor="@color/white" />
 
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif-light"
-                android:text="Datos personales"
-                android:textAllCaps="true"
-                android:textColor="@color/startblue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Nombre completo"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextNombreCompleto"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ReciclerViewPerfilProfesional"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/grey"
-                        android:hint="Nombre completo"
-                        android:singleLine="true" />
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginTop="10dp"/>
 
                 </LinearLayout>
 
-                <LinearLayout
+                <View
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:background="@drawable/separador" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Tipo de Identificación"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_TipoIdentificacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Tipo de Identificación"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Identificación"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextIdentificacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Identificación"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Fecha de Nacimiento"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextFechaNacimiento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Fecha de Nacimiento"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Edad"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextEdad"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Edad"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Género"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_Genero"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Género"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Profesión"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/SpinnerProfesion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Profesión"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Estado cívil"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_EstadoCivil"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Estado cívil"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Celular"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextCelular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Celular"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Telefono"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextTelefono"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Telefono"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Departamento"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_Departamento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Departamento"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Ciudad"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                        android:id="@+id/spinner_Ciudad"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ciudad"
-                        android:textColorHint="@color/startblue" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Dirección"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextDireccion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Dirección"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Correo Electrónico"
-                        android:textAllCaps="true"
-                        android:textColor="@color/startblue"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextCorreoElectronico"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Correo Electrónico"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/separador" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif-light"
-                android:text="Perfil profesional"
-                android:textAllCaps="true"
-                android:textColor="@color/startblue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <Button
-                    android:id="@+id/ButtonAgregarPerfilProfesional"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/buttonstylegradient"
-                    android:text="Añadir"
-                    android:textColor="@color/white" />
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Experiencia Profesional"
+                    android:textAllCaps="true"
+                    android:textColor="@color/startblue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ReciclerViewPerfilProfesional"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/ButtonAgregarExperienciaLaboral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttonstylegradient"
+                        android:text="Añadir"
+                        android:textColor="@color/white" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/separador" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ReciclerViewExperienciasProfesionaes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginTop="10dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif-light"
-                android:text="Experiencia Profesional"
-                android:textAllCaps="true"
-                android:textColor="@color/startblue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/separador" />
 
-                <Button
-                    android:id="@+id/ButtonAgregarExperienciaLaboral"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/buttonstylegradient"
-                    android:text="Añadir"
-                    android:textColor="@color/white" />
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Estudios"
+                    android:textAllCaps="true"
+                    android:textColor="@color/startblue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ReciclerViewExperienciasProfesionaes"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:layout_marginTop="10dp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/separador" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif-light"
-                android:text="Estudios"
-                android:textAllCaps="true"
-                android:textColor="@color/startblue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <Button
-                    android:id="@+id/ButtonAgregarEstudio"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/buttonstylegradient"
-                    android:text="Añadir"
-                    android:textColor="@color/white" />
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ReciclerViewEstudio"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:layout_marginTop="10dp"/>
+                    <Button
+                        android:id="@+id/ButtonAgregarEstudio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttonstylegradient"
+                        android:text="Añadir"
+                        android:textColor="@color/white" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ReciclerViewEstudio"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="3dp"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/separador" />
+        </ScrollView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif-light"
-                android:text="Idiomas"
-                android:textAllCaps="true"
-                android:textColor="@color/startblue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <Button
-                    android:id="@+id/ButtonAgregarIdioma"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/buttonstylegradient"
-                    android:text="Añadir"
-                    android:textColor="@color/white" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ReciclerViewIdioma"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:layout_marginTop="10dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

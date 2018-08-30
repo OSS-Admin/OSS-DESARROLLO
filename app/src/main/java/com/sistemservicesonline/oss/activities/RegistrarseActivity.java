@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sistemservicesonline.oss.appcode.Usuario;
-import com.sistemservicesonline.oss.appcode.Utilidades;
 import com.sistemservicesonline.oss.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -72,8 +71,6 @@ public class RegistrarseActivity extends AppCompatActivity {
     ArrayList<String> lstTiposIdentificacion;
     ArrayList<String> lstGeneros;
 
-    Utilidades ObjUtilidades = new Utilidades();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +116,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         EditTextConfirmarContrasena = findViewById(R.id.EditTextConfirmarContrasena);
 
         /*Inicio MaterialBetterSpinner*/
-        lstTiposIdentificacion = ObjUtilidades.ConsultarMaestro("TiposIdentificacion");
+        //lstTiposIdentificacion = ObjUtilidades.ConsultarMaestro("TiposIdentificacion");
         MaterialBetterSpinnerTipoIdentificacion = findViewById(R.id.MaterialBetterSpinnerTipoIdentificacion);
         ArrayAdapter<String> AdapterTipoIdentificacion = new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, lstTiposIdentificacion);
         MaterialBetterSpinnerTipoIdentificacion.setAdapter(AdapterTipoIdentificacion);
@@ -137,7 +134,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         ArrayAdapter<String> AdapterCategorias = new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, lstCategorias);
         MaterialBetterSpinnerCategoria.setAdapter(AdapterCategorias);
 
-        lstGeneros = ObjUtilidades.ConsultarMaestro("Generos");
+        //lstGeneros = ObjUtilidades.ConsultarMaestro("Generos");
         MaterialBetterSpinnerGenero = findViewById(R.id.MaterialBetterSpinnerGenero);
         ArrayAdapter<String> AdapterGenero = new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, lstGeneros);
         MaterialBetterSpinnerGenero.setAdapter(AdapterGenero);

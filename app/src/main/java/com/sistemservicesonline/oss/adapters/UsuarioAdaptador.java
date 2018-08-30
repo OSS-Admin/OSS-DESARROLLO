@@ -61,7 +61,7 @@ public class UsuarioAdaptador extends RecyclerView.Adapter<UsuarioAdaptador.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.TextViewNombreUsuario.setText(LstUsuarios.get(i).getNombreCompleto());
+        //viewHolder.TextViewNombreUsuario.setText(LstUsuarios.get(i).getNombreCompleto());
     }
 
     @Override

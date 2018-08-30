@@ -115,7 +115,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (LstUsuario != null) {
                 for (int i = 0; i < LstUsuario.size(); i++) {
-                    TextViewNombreCompleto.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getNombreCompleto() : "");
+                    String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
+                    String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
+                    String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
+                    String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
+                    String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
+                    TextViewNombreCompleto.setText(sNombreCompleto);
                     TextViewEmail.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail().toString() : "");
                 }
             }
