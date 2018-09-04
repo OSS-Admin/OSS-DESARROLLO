@@ -61,10 +61,13 @@ public class Usuario {
     private String estado;
     @SerializedName("Usuario")
     @Expose
-    private String usuario;
+    private Object usuario;
     @SerializedName("Activo")
     @Expose
     private Boolean activo;
+    @SerializedName("Contrasena")
+    @Expose
+    private String contrasena;
 
     public String getCodigoUsuario() {
         return codigoUsuario;
@@ -210,11 +213,11 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getUsuario() {
+    public Object getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Object usuario) {
         this.usuario = usuario;
     }
 
@@ -224,6 +227,14 @@ public class Usuario {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
 }

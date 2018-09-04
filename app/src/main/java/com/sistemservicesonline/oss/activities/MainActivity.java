@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             Header;
 
     private String gsToken = "";
-    private boolean bRegistro = false;
+    private String gsRegistro = "";
     private DrawerLayout drawerLayout;
 
     List<Usuario> LstUsuario = new ArrayList<>();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         InicializarControles();
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
-        bRegistro = Boolean.parseBoolean(getIntent().getExtras().getString("bRegistro"));
+        gsRegistro = getIntent().getExtras().getString("bRegistro") != null ? getIntent().getExtras().getString("bRegistro").toString() : "";
 
         ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
         Call call = apiService.ConsultarUsuario(gsToken);
@@ -74,16 +74,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     LstUsuario = (List<Usuario>) response.body();
-                    if (bRegistro) {
+                    CargarInformacionUsuario(LstUsuario);
+                    if (!gsRegistro.equals("")) {
                         Intent ObjIntent = new Intent(MainActivity.this, EditarPerfilActivity.class);
                         ObjIntent.putExtra("Token", gsToken);
                         startActivity(ObjIntent);
-                    } else {
-                        if (LstUsuario.size() > 0) {
-                            CargarInformacionUsuario(LstUsuario);
-                        } else {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        }
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();

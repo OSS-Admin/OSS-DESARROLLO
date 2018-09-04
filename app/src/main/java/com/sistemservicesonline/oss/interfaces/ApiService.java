@@ -23,6 +23,12 @@ public interface ApiService {
     @GET("OSS/Usuarios/{CodigoUsuario}")
     Call<List<Usuario>> ConsultarUsuario(@Path("CodigoUsuario") String CodigoUsuario);
 
+    @GET("OSS/Usuarios/Login/{sCorreo}/{sContrasena}")
+    Call<List<Usuario>> Login(@Path("sCorreo") String sCorreo, @Path("sContrasena") String sContrasena);
+
+    @GET("OSS/Usuarios/ValidarCorreo/{sCorreo}")
+    Call<List<Usuario>> ValidarCorreo(@Path("sCorreo") String sCorreo);
+
     @POST("OSS/Usuarios/")
     Call<Void> RegistrarUsuario(@Body Usuario usuario);
 

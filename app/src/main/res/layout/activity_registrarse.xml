@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/white"
+    android:background="@color/startblue"
     tools:context=".activities.RegistrarseActivity">
 
     <ScrollView
@@ -137,13 +137,97 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Nombre completo"
+                        android:text="Primer Nombre"
                         android:textAllCaps="true"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/EditTextNombreCompleto"
+                        android:id="@+id/EditTextPrimerNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="textPersonName"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Segundo Nombre"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextSegundoNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="textPersonName"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Primer Apellido"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextPrimerApellido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="textPersonName"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Segundo Apellido"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextSegundoApellido"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/grey"
@@ -373,4 +457,4 @@
 
     </ScrollView>
 
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

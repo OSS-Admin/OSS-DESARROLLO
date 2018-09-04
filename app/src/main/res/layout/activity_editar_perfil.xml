@@ -35,7 +35,7 @@
                     android:background="@color/startblue"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="@string/Perfil">
+                    app:title="@string/EditarPerfil">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -255,7 +255,7 @@
                             android:id="@+id/EditTextEdad"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Edad"
+                            android:hint=""
                             android:enabled="false"
                             android:singleLine="true" />
 
@@ -337,7 +337,7 @@
                             android:id="@+id/EditTextCelular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Celular"
+                            android:hint=""
                             android:singleLine="true"
                             android:inputType="phone"
                             android:maxLength="10"/>
@@ -366,7 +366,7 @@
                             android:id="@+id/EditTextTelefono"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Telefono"
+                            android:hint=""
                             android:singleLine="true"
                             android:inputType="phone"
                             android:maxLength="7"/>
@@ -449,7 +449,7 @@
                             android:id="@+id/EditTextDireccion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Dirección"
+                            android:hint=""
                             android:singleLine="true" />
 
                     </LinearLayout>
@@ -476,7 +476,7 @@
                             android:id="@+id/EditTextNombreUsuario"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Correo Electrónico"
+                            android:hint=""
                             android:singleLine="true" />
 
                     </LinearLayout>
@@ -503,7 +503,7 @@
                             android:id="@+id/EditTextCorreoElectronico"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Correo Electrónico"
+                            android:hint=""
                             android:singleLine="true"
                             android:inputType="textEmailAddress"/>
 
