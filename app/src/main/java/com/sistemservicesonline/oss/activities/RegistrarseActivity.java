@@ -1,6 +1,7 @@
 package com.sistemservicesonline.oss.activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,9 +29,7 @@ import com.sistemservicesonline.oss.interfaces.ApiService;
 import com.sistemservicesonline.oss.services.APIServiceClient;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +74,9 @@ public class RegistrarseActivity extends AppCompatActivity {
             ImageViewFotoPerfil,
             ImageViewCambiarFechaNacimiento;
 
+    ProgressDialog
+            progressDialog;
+
     private String gsToken = "";
     private static final String CERO = "0";
     private static final String BARRA = "-";
@@ -116,6 +118,12 @@ public class RegistrarseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+            progressDialog = new ProgressDialog(RegistrarseActivity.this);
+            progressDialog.setMessage("Cargando...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+
             ImageViewFotoPerfil = findViewById(R.id.ImageViewFotoPerfil);
             ImageViewCambiarFechaNacimiento = findViewById(R.id.ImageViewCambiarFechaNacimiento);
             ImageViewCambiarFechaNacimiento.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +146,7 @@ public class RegistrarseActivity extends AppCompatActivity {
             ButtonRegistrarse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    progressDialog.show();
                     ValidarRegistroUsuario();
                 }
             });
@@ -190,19 +199,19 @@ public class RegistrarseActivity extends AppCompatActivity {
                             MaterialBetterSpinnerTipoIdentificacion.setAdapter(new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, LstTiposIdentificacion));
                             MaterialBetterSpinnerCategoria.setAdapter(new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, LstCategorias));
                             MaterialBetterSpinnerGenero.setAdapter(new ArrayAdapter<String>(RegistrarseActivity.this, android.R.layout.simple_dropdown_item_1line, LstGeneros));
-                        } else {
-                            Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -240,21 +249,22 @@ public class RegistrarseActivity extends AppCompatActivity {
             String sContrasena = EditTextContrasena.getText() != null ? EditTextContrasena.getText().toString() : "";
             String sContrasenaConfirmada = EditTextConfirmarContrasena.getText() != null ? EditTextConfirmarContrasena.getText().toString() : "";
 
-            if (sTipoIdentificacion.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sIdentificacion.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sPrimerNombre.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sPrimerApellido.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sSegundoApellido.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sFechaNacimiento.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sCategoria.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sGenero.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sCelular.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sEmail.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sContrasena.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
-            if (sContrasenaConfirmada.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); return; }
+            if (sTipoIdentificacion.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sIdentificacion.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sPrimerNombre.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sPrimerApellido.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sSegundoApellido.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sFechaNacimiento.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sCategoria.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sGenero.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sCelular.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sEmail.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sContrasena.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
+            if (sContrasenaConfirmada.equals("")) { Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show(); progressDialog.dismiss(); return; }
 
             boolean bEmailValido = ValidarEmail(sEmail);
             if (!bEmailValido) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "El correo electrónico es invalido.", Toast.LENGTH_SHORT).show();
                 EditTextCorreoElectronico.requestFocus();
                 return;
@@ -271,6 +281,7 @@ public class RegistrarseActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             LstUsuario = (List<Usuario>) response.body();
                             if (!LstUsuario.equals(null) && LstUsuario.size() > 0) {
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "El correo electrónico ingresado ya existe en OSS.", Toast.LENGTH_SHORT).show();
                             } else {
                                 RegistroUsuario();
@@ -279,14 +290,18 @@ public class RegistrarseActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call call, Throwable t) {
-                        Log.d("", t.getMessage());
+                        progressDialog.dismiss();
+                        Log.i("", t.toString());
+                        Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error en RegistrarUsuario() : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -332,21 +347,27 @@ public class RegistrarseActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
+                        progressDialog.dismiss();
                         Intent ObjIntent = new Intent(RegistrarseActivity.this, MainActivity.class);
                         ObjIntent.putExtra("Token", gsToken);
                         ObjIntent.putExtra("bRegistro", "true");
                         startActivity(ObjIntent);
                     } else {
+                        progressDialog.dismiss();
                         Log.d("", response.message());
+                        Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Log.d("", t.getMessage());
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error en Registro() : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

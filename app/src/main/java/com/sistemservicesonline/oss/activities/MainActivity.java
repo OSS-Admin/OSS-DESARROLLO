@@ -6,7 +6,9 @@
 * */
 package com.sistemservicesonline.oss.activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import android.view.MenuItem;
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     View
             Header;
+
+    ProgressDialog
+            progressDialog;
 
     private String gsToken = "";
     private String gsRegistro = "";
@@ -81,13 +86,16 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(ObjIntent);
                     }
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                Log.i("", t.toString());
+                Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -101,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
         Header = navigationView.getHeaderView(0);
         TextViewNombreCompleto = Header.findViewById(R.id.TextViewNombreUsuario);
         TextViewEmail = Header.findViewById(R.id.TextViewEmail);
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Cargando...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        progressDialog.setCancelable(false);
     }
 
     // Fecha         : 20180726
@@ -118,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     TextViewNombreCompleto.setText(sNombreCompleto);
                     TextViewEmail.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail().toString() : "");
                 }
+                progressDialog.dismiss();
             }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
