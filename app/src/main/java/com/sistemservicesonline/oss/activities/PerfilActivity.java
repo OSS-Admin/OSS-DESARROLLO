@@ -1,5 +1,6 @@
 package com.sistemservicesonline.oss.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,9 @@ public class PerfilActivity extends AppCompatActivity {
     SwipeRefreshLayout
             swipeRefreshLayout;
 
+    ProgressDialog
+            progressDialog;
+
     Button
             ButtonContactar;
 
@@ -63,6 +67,10 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
         sTokenInvitado = getIntent().getExtras().getString("TokenInvitado") != null ? getIntent().getExtras().getString("TokenInvitado").toString() : "";
@@ -120,10 +128,12 @@ public class PerfilActivity extends AppCompatActivity {
 
     private void InicializarControles() {
         try {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            progressDialog = new ProgressDialog(PerfilActivity.this);
+            progressDialog.setMessage("Cargando...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            progressDialog.setCancelable(false);
 
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -153,7 +163,8 @@ public class PerfilActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent ObjIntent = new Intent (PerfilActivity.this, EditarPerfilActivity.class);
                     ObjIntent.putExtra("Token", gsToken);
-                    startActivityForResult(ObjIntent, 0);
+                    startActivity(ObjIntent);
+                    finish();
                 }
             });
             /*Fin ImageView Controls*/
@@ -186,6 +197,7 @@ public class PerfilActivity extends AppCompatActivity {
                     TxvTelefono.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getTelefono() : "");
                     TxvCiudad.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCiudad() : "");
                 }
+                progressDialog.dismiss();
             }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -202,5 +214,13 @@ public class PerfilActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent ObjIntent = new Intent(PerfilActivity.this, MainActivity.class);
+        ObjIntent.putExtra("Token", gsToken);
+        startActivity(ObjIntent);
+        finish();
     }
 }

@@ -2,8 +2,10 @@ package com.sistemservicesonline.oss.activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -348,10 +350,12 @@ public class RegistrarseActivity extends AppCompatActivity {
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
                         progressDialog.dismiss();
+                        GuardarPreferencias();
                         Intent ObjIntent = new Intent(RegistrarseActivity.this, MainActivity.class);
                         ObjIntent.putExtra("Token", gsToken);
                         ObjIntent.putExtra("bRegistro", "true");
                         startActivity(ObjIntent);
+                        finish();
                     } else {
                         progressDialog.dismiss();
                         Log.d("", response.message());
@@ -371,6 +375,12 @@ public class RegistrarseActivity extends AppCompatActivity {
         }
     }
 
+    private void GuardarPreferencias () {
+        SharedPreferences Preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = Preferences.edit();
+        editor.putString("Token", gsToken);
+        editor.commit();
+    }
 
     private void CargarImagenPerfil() {
         final CharSequence[] opciones = {"Tomar Foto", "Cargar Foto", "Cancelar"};

@@ -1,6 +1,7 @@
 package com.sistemservicesonline.oss.activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,6 +81,9 @@ public class EditarPerfilActivity extends AppCompatActivity {
     SwipeRefreshLayout
             swipeRefreshLayout;
 
+    ProgressDialog
+            progressDialog;
+
     private String gsToken = "";
     private String sTokenInvitado = "";
     private static final String CERO = "0";
@@ -130,7 +135,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -139,6 +143,12 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
+
+            progressDialog = new ProgressDialog(EditarPerfilActivity.this);
+            progressDialog.setMessage("Cargando...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            progressDialog.setCancelable(false);
 
             /*Inicio TextView*/
             TextViewCambiarFoto = findViewById(R.id.TextViewCambiarFoto);
@@ -188,8 +198,18 @@ public class EditarPerfilActivity extends AppCompatActivity {
             SpinnerDepartamento = findViewById(R.id.spinner_Departamento);
             SpinnerCiudad = findViewById(R.id.spinner_Ciudad);
             SpinnerEstado = findViewById(R.id.spinner_Estado);
-
             /*Fin MaterialBetterSpinner*/
+
+            /*Inicio Buttons*/
+            ButtonAgregarPerfilProfesional = findViewById(R.id.ButtonAgregarPerfilProfesional);
+            ButtonAgregarPerfilProfesional.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) { startActivity(new Intent(EditarPerfilActivity.this, PerfilProfesionalActivity.class)); }
+            });
+            ButtonAgregarExperienciaLaboral = findViewById(R.id.ButtonAgregarExperienciaLaboral);
+            ButtonAgregarEstudio = findViewById(R.id.ButtonAgregarEstudio);
+            /*Fin Buttons*/
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -233,19 +253,18 @@ public class EditarPerfilActivity extends AppCompatActivity {
                             SpinnerCiudad.setAdapter(AdapterCiudades);
                             ArrayAdapter<String> AdapterEstados = new ArrayAdapter<String>(EditarPerfilActivity.this, android.R.layout.simple_dropdown_item_1line, LstEstados);
                             SpinnerEstado.setAdapter(AdapterEstados);
-                        } else {
-                            Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -261,19 +280,18 @@ public class EditarPerfilActivity extends AppCompatActivity {
                         LstUsuario = (List<Usuario>) response.body();
                         if (LstUsuario.size() > 0) {
                             CargarInformacionUsuario(LstUsuario);
-                        } else {
-                            Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -303,8 +321,10 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     EditTextCorreoElectronico.setText(LstUsuario.get(i).getEmail() != null ? LstUsuario.get(i).getEmail().toString() : "");
                     SpinnerEstado.setText(LstUsuario.get(i).getEstado() != null ? LstUsuario.get(i).getEstado().toString() : "");
                 }
+                progressDialog.dismiss();
             }
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -358,18 +378,20 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         Intent ObjIntent = new Intent (EditarPerfilActivity.this, MainActivity.class);
                         ObjIntent.putExtra("Token", gsToken);
-                        startActivityForResult(ObjIntent, 0);
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                        startActivity(ObjIntent);
+                        finish();
                     }
                 }
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -476,5 +498,13 @@ public class EditarPerfilActivity extends AppCompatActivity {
             diffYear = diffYear - 1;
         }
         return diffYear;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent ObjIntent = new Intent(EditarPerfilActivity.this, PerfilActivity.class);
+        ObjIntent.putExtra("Token", gsToken);
+        startActivity(ObjIntent);
+        finish();
     }
 }

@@ -7,7 +7,10 @@
 package com.sistemservicesonline.oss.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -47,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressDialog
             progressDialog;
+
+    CardView
+            CardViewCatArte
+            , CardViewCatVehiculos
+            , CardViewCatBelleza
+            , CardViewCatDeportes
+            , CardViewCatEducacion
+            , CardViewCatEntretenimiento
+            , CardViewCatServiciosTecnicos
+            , CardViewCatMedicina;
 
     private String gsToken = "";
     private String gsRegistro = "";
@@ -115,6 +128,47 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         progressDialog.setCancelable(false);
+
+        CardViewCatArte = (CardView) findViewById(R.id.CardViewCatArte);
+        CardViewCatArte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG1"); }
+        });
+        CardViewCatVehiculos = (CardView) findViewById(R.id.CardViewCatVehiculos);
+        CardViewCatVehiculos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG2"); }
+        });
+        CardViewCatBelleza = (CardView) findViewById(R.id.CardViewCatBelleza);
+        CardViewCatBelleza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG3"); }
+        });
+        CardViewCatDeportes = (CardView) findViewById(R.id.CardViewCatDeportes);
+        CardViewCatDeportes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG4"); }
+        });
+        CardViewCatEducacion = (CardView) findViewById(R.id.CardViewCatEducacion);
+        CardViewCatEducacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG5"); }
+        });
+        CardViewCatEntretenimiento = (CardView) findViewById(R.id.CardViewCatEntretenimiento);
+        CardViewCatEntretenimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG6"); }
+        });
+        CardViewCatServiciosTecnicos = (CardView) findViewById(R.id.CardViewCatServiciosTecnicos);
+        CardViewCatServiciosTecnicos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG7"); }
+        });
+        CardViewCatMedicina = (CardView) findViewById(R.id.CardViewCatMedicina);
+        CardViewCatMedicina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG8"); }
+        });
     }
 
     // Fecha         : 20180726
@@ -138,6 +192,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void FiltrarPorCategoria (String sCategoria) {
+        try {
+            Intent ObjIntent = new Intent(MainActivity.this, UsuariosActivity.class);
+            ObjIntent.putExtra("Token", gsToken);
+            ObjIntent.putExtra("Categoria", sCategoria);
+            startActivity(ObjIntent);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     // Fecha         : 20180726
     // Desarrollador : Manuel Enrique Osorio Ochoa
@@ -168,32 +234,46 @@ public class MainActivity extends AppCompatActivity {
                             Intent ObjIntent = new Intent(getApplicationContext(), PerfilActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
                         } else if (id == R.id.nav_buscarusuarios) {
                             Intent ObjIntent = new Intent(getApplicationContext(), UsuariosActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
                         } else if (id == R.id.nav_misservicios) {
                             Intent ObjIntent = new Intent(getApplicationContext(), MisServiciosActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
                         } else if (id == R.id.nav_misfavoritos) {
                             Intent ObjIntent = new Intent(getApplicationContext(), MisFavoritosActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
                         } else if (id == R.id.nav_conversaciones) {
                             Intent ObjIntent = new Intent(getApplicationContext(), ConversacionesActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
                         } else if (id == R.id.nav_configuracion) {
                             Intent ObjIntent = new Intent(getApplicationContext(), ConfiguracionesActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
+                            finish();
+                        } else if (id == R.id.nav_CerrarSesion) {
+                            BorrarReferencias();
+                            finish();
                         }
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                     }
                 }
         );
+    }
+
+    private void BorrarReferencias () {
+        SharedPreferences Preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        Preferences.edit().remove("Token").commit();
     }
 
     @Override
@@ -211,21 +291,7 @@ public class MainActivity extends AppCompatActivity {
     // Proposito     : onBackPressed para el cuadro de dialogo el cual pregunta si en realidad quieres salir de la aplicación.
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
-        mensaje.setTitle("¿Desea Salir de la Aplicacion?");
-        mensaje.setCancelable(false);
-        mensaje.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        mensaje.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        mensaje.show();
+        finish();
     }
     //endregion Metodos
 }

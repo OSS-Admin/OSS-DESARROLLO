@@ -42,6 +42,11 @@
                 android:id="@+id/nav_configuracion"
                 android:icon="@drawable/ic_configuraciones"
                 android:title="@string/configuracion_item" />
+
+            <item
+                android:id="@+id/nav_CerrarSesion"
+                android:icon="@drawable/ic_power"
+                android:title="@string/log_out_item" />
         </menu>
     </group>
 

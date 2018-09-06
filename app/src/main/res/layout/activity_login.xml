@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     android:background="@color/startblue"
     tools:context=".activities.LoginActivity">
@@ -27,8 +25,7 @@
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgView_logo"
-            android:visibility="gone">
+            android:layout_below="@+id/imgView_logo">
 
             <TextView
                 android:id="@+id/tv_login"
@@ -110,54 +107,55 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_IniciarSesion"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+            <ImageView
+                android:id="@+id/ImageViewIniciarSesion"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ic_login"
                 android:layout_below="@+id/linlay1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/btn_bg"
-                android:fontFamily="sans-serif-medium"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
-                android:text="Iniciar Sesión"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_below="@+id/ImageViewIniciarSesion">
+
+                <Button
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingresar con Facebook"
+                    android:background="@drawable/fb_btn"
+                    android:textColorHint="#fff"
+                    android:textSize="16dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="20dp"/>
+
+                <Button
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingresar con Twitter"
+                    android:background="@drawable/tw_btn"
+                    android:textColorHint="#fff"
+                    android:textSize="16dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_Registrarse"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:hint="Crear una cuenta"
+                    android:background="@null"
+                    android:textColorHint="@color/white"
+                    android:textSize="16dp"
+                    android:layout_marginTop="15dp"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rellay2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/btn_Registrarse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:fontFamily="sans-serif"
-            android:text="Registrate"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@color/transparent"
-            android:fontFamily="sans-serif"
-            android:text="Olvidaste tu Contraseña?"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
 
     </RelativeLayout>
 

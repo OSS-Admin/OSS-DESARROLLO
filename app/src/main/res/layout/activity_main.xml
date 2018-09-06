@@ -71,6 +71,7 @@
 
             <!-- Column 1 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatArte"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -108,6 +109,7 @@
 
             <!-- Column 2 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatVehiculos"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -147,6 +149,7 @@
 
             <!-- Column 1 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatBelleza"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -184,6 +187,7 @@
 
             <!-- Column 2 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatDeportes"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -223,6 +227,7 @@
 
             <!-- Column 1 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatEducacion"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -260,6 +265,7 @@
 
             <!-- Column 2 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatEntretenimiento"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -268,8 +274,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 app:cardElevation="8dp"
-                app:cardCornerRadius="8dp"
-                >
+                app:cardCornerRadius="8dp" >
 
                 <LinearLayout
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -300,6 +305,7 @@
 
             <!-- Column 1 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatServiciosTecnicos"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -337,6 +343,7 @@
 
             <!-- Column 2 -->
             <android.support.v7.widget.CardView
+                android:id="@+id/CardViewCatMedicina"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"

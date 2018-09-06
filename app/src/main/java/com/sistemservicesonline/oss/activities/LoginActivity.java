@@ -1,7 +1,9 @@
 package com.sistemservicesonline.oss.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -40,23 +43,18 @@ public class LoginActivity extends AppCompatActivity {
             ETUsuario,
             ETContraseña;
 
-    Button
-            btn_IniciarSesion,
-            btn_Registrarse;
+    ImageView
+            ImageViewIniciarSesion;
 
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            rellay1.setVisibility(View.VISIBLE);
-            rellay2.setVisibility(View.VISIBLE);
-        }
-    };
+    Button
+            btn_Registrarse;
 
     ProgressDialog
             progressDialog;
 
     private String gsToken = "";
+    private String sUsuario = "";
+    private String sPassword = "";
 
     List<Usuario> LstUsuario = new ArrayList<>();
 
@@ -65,40 +63,45 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
-        rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
-        handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
+        gsToken = CargarPreferencias();
+        if (!gsToken.isEmpty()) {
+            Intent ObjIntent = new Intent(LoginActivity.this, MainActivity.class);
+            ObjIntent.putExtra("Token", gsToken);
+            ObjIntent.putExtra("bRegistro", "");
+            startActivity(ObjIntent);
+            finish();
+        } else {
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setMessage("Cargando...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
 
-        progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setMessage("Cargando...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
+            ETUsuario = (EditText) findViewById(R.id.ETUsuario);
+            ETContraseña = (EditText) findViewById(R.id.ETContrasena);
 
-        ETUsuario = (EditText) findViewById(R.id.ETUsuario);
-        ETContraseña = (EditText) findViewById(R.id.ETContrasena);
+            ImageViewIniciarSesion = (ImageView)findViewById(R.id.ImageViewIniciarSesion);
+            ImageViewIniciarSesion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressDialog.show();
+                    ValidarUsuario();
+                }
+            });
 
-        btn_IniciarSesion = (Button)findViewById(R.id.btn_IniciarSesion);
-        btn_IniciarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressDialog.show();
-                ValidarUsuario();
-            }
-        });
-
-        btn_Registrarse = (Button)findViewById(R.id.btn_Registrarse);
-        btn_Registrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RegistrarseActivity.class));
-            }
-        });
+            btn_Registrarse = (Button)findViewById(R.id.btn_Registrarse);
+            btn_Registrarse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), RegistrarseActivity.class));
+                }
+            });
+        }
     }
 
     public void ValidarUsuario (){
         try {
-            String sUsuario = ETUsuario.getText() != null ? ETUsuario.getText().toString() : "";
-            String sPassword = EncriptarContrasena(ETContraseña.getText() != null ? ETContraseña.getText().toString() : "", "MD5");
+            sUsuario = ETUsuario.getText() != null ? ETUsuario.getText().toString() : "";
+            sPassword = EncriptarContrasena(ETContraseña.getText() != null ? ETContraseña.getText().toString() : "", "MD5");
 
             if (sUsuario.equals("") || sPassword.equals("")){
                 progressDialog.dismiss();
@@ -120,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                                 ObjIntent.putExtra("Token", gsToken);
                                 ObjIntent.putExtra("bRegistro", "");
                                 startActivity(ObjIntent);
+                                finish();
+                                GuardarPreferencias();
                             } else {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Los datos ingresados no son correctos, por favor verifique.", Toast.LENGTH_SHORT).show();
@@ -140,6 +145,20 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private String CargarPreferencias () {
+        SharedPreferences Preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        gsToken = Preferences.getString("Token", "");
+        return gsToken;
+    }
+
+    private void GuardarPreferencias () {
+        SharedPreferences Preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = Preferences.edit();
+        editor.putString("Token", gsToken);
+        editor.commit();
+    }
+
 
     public static String EncriptarContrasena(String txt, String hashType) {
         try {
