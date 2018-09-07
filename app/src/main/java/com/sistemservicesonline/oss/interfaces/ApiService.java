@@ -1,6 +1,7 @@
 package com.sistemservicesonline.oss.interfaces;
 
 import com.sistemservicesonline.oss.appcode.Maestros;
+import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
 
 import java.util.List;
@@ -37,6 +38,22 @@ public interface ApiService {
 
     @DELETE("OSS/Usuarios/{CodigoUsuario}")
     Call<Void> EliminarUsuario(@Query("CodigoUsuario") String CodigoUsuario);
+
+    //PerfilesProfesionales
+    @GET("OSS/PerfilesProfesionales/CodigoUsuario/{CodigoUsuario}")
+    Call<List<PerfilProfesional>> ConsultarPerfilesProfesionales(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @GET("OSS/PerfilesProfesionales/{Codigo}")
+    Call<List<PerfilProfesional>> ConsultarPerfilProfesional(@Path("Codigo") String Codigo);
+
+    @POST("OSS/PerfilesProfesionales/")
+    Call<Void> RegistrarPerfilProfesional(@Body PerfilProfesional perfilProfesional);
+
+    @PUT("OSS/PerfilesProfesionales/{Codigo}")
+    Call<Void> ActualizarPerfilProfesional(@Path("Codigo") String codigo, @Body PerfilProfesional perfilProfesional);
+
+    @DELETE("OSS/PerfilesProfesionales/{Codigo}")
+    Call<Void> EliminarPerfilProfesional(@Path("Codigo") String Codigo);
 
     //Maestros
     @GET("OSS/Maestros/")

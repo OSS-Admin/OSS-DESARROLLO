@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sistemservicesonline.oss.appcode.Usuario;
@@ -25,11 +26,11 @@ public class UsuarioAdaptador extends RecyclerView.Adapter<UsuarioAdaptador.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView TextViewNombreUsuario, TextViewPerfilProfesional;
+        private EditText EditTextTitulo, EditTextDescripcion;
 
         public ViewHolder(View itemView, final UsuarioAdaptador.OnItemClickListener listener) {
             super(itemView);
-            TextViewNombreUsuario = itemView.findViewById(R.id.TextViewNombreUsuario);
+            EditTextTitulo = itemView.findViewById(R.id.EditTextCargoTitulo);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -254,12 +254,11 @@ public class MainActivity extends AppCompatActivity {
                             Intent ObjIntent = new Intent(getApplicationContext(), ConversacionesActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
-                            finish();
+
                         } else if (id == R.id.nav_configuracion) {
                             Intent ObjIntent = new Intent(getApplicationContext(), ConfiguracionesActivity.class);
                             ObjIntent.putExtra("Token", gsToken);
                             startActivity(ObjIntent);
-                            finish();
                         } else if (id == R.id.nav_CerrarSesion) {
                             BorrarReferencias();
                             finish();

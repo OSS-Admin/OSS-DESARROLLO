@@ -12,6 +12,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +21,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sistemservicesonline.oss.R;
+import com.sistemservicesonline.oss.adapters.PerfilProfesionalAdapter;
 import com.sistemservicesonline.oss.appcode.Maestros;
+import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.interfaces.ApiService;
 import com.sistemservicesonline.oss.services.APIServiceClient;
@@ -84,6 +87,11 @@ public class EditarPerfilActivity extends AppCompatActivity {
     ProgressDialog
             progressDialog;
 
+    RecyclerView
+            ReciclerViewPerfilProfesional;
+
+    private PerfilProfesionalAdapter PerfilProfesionalAdapter;
+
     private String gsToken = "";
     private String sTokenInvitado = "";
     private static final String CERO = "0";
@@ -109,6 +117,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
     List<String> LstDepartamentos = new ArrayList<>();
     List<String> LstCiudades = new ArrayList<>();
     List<String> LstEstados = new ArrayList<>();
+    List<PerfilProfesional> LstPerfilesProfesionales = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +133,10 @@ public class EditarPerfilActivity extends AppCompatActivity {
         if (!sTokenInvitado.equals("")) {
             ImageViewGuardar.setVisibility(View.GONE);
             TextViewCambiarFoto.setVisibility(View.GONE);
-            ObtenerUsuario(gsToken);
+            ObtenerUsuario();
         } else {
-            ObtenerUsuario(gsToken);
+            ObtenerUsuario();
+            progressDialog.dismiss();
         }
     }
 
@@ -135,6 +145,13 @@ public class EditarPerfilActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_atras));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
 
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -204,12 +221,18 @@ public class EditarPerfilActivity extends AppCompatActivity {
             ButtonAgregarPerfilProfesional = findViewById(R.id.ButtonAgregarPerfilProfesional);
             ButtonAgregarPerfilProfesional.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) { startActivity(new Intent(EditarPerfilActivity.this, PerfilProfesionalActivity.class)); }
+                public void onClick(View view) {
+                    Intent ObjIntent = new Intent(EditarPerfilActivity.this, PerfilProfesionalActivity.class);
+                    ObjIntent.putExtra("Token", gsToken);
+                    ObjIntent.putExtra("Nuevo", "true");
+                    startActivity(ObjIntent);
+                }
             });
             ButtonAgregarExperienciaLaboral = findViewById(R.id.ButtonAgregarExperienciaLaboral);
             ButtonAgregarEstudio = findViewById(R.id.ButtonAgregarEstudio);
             /*Fin Buttons*/
 
+            ReciclerViewPerfilProfesional = findViewById(R.id.ReciclerViewPerfilProfesional);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -269,17 +292,39 @@ public class EditarPerfilActivity extends AppCompatActivity {
         }
     }
 
-    private void ObtenerUsuario (String sToken) {
+    private void ObtenerUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarUsuario(sToken);
+            Call call = apiService.ConsultarUsuario(gsToken);
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
                         LstUsuario = (List<Usuario>) response.body();
                         if (LstUsuario.size() > 0) {
-                            CargarInformacionUsuario(LstUsuario);
+                            for (int i = 0; i < LstUsuario.size(); i++) {
+                                String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
+                                String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
+                                String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
+                                String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
+                                String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
+                                EditTextNombreCompleto.setText(sNombreCompleto);
+                                SpinnerTipoIdentificacion.setText(LstUsuario.get(i).getTipoIdentificacion() != null ? LstUsuario.get(i).getTipoIdentificacion().toString() : "");
+                                EditTextIdentificacion.setText(LstUsuario.get(i).getIdentificacion() != null ? LstUsuario.get(i).getIdentificacion().toString() : "");
+                                EditTextFechaNacimiento.setText(LstUsuario.get(i).getFechaNacimiento() != null ? LstUsuario.get(i).getFechaNacimiento().toString() : "");
+                                EditTextEdad.setText(LstUsuario.get(i).getEdad() != null ? LstUsuario.get(i).getEdad().toString() : "");
+                                SpinnerCategoria.setText(LstUsuario.get(i).getCategoria() != null ? LstUsuario.get(i).getCategoria().toString() : "");
+                                SpinnerGenero.setText(LstUsuario.get(i).getGenero() != null ? LstUsuario.get(i).getGenero().toString() : "");
+                                EditTextCelular.setText(LstUsuario.get(i).getCelular() != null ? LstUsuario.get(i).getCelular().toString() : "");
+                                EditTextTelefono.setText(LstUsuario.get(i).getTelefono() != null ? LstUsuario.get(i).getTelefono().toString() : "");
+                                SpinnerDepartamento.setText(LstUsuario.get(i).getDepartamento() != null ? LstUsuario.get(i).getDepartamento().toString() : "");
+                                SpinnerCiudad.setText(LstUsuario.get(i).getCiudad() != null ? LstUsuario.get(i).getCiudad().toString() : "");
+                                EditTextDireccion.setText(LstUsuario.get(i).getDireccion() != null ? LstUsuario.get(i).getDireccion().toString() : "");
+                                EditTextNombreUsuario.setText(LstUsuario.get(i).getUsuario() != null ? LstUsuario.get(i).getUsuario().toString() : "");
+                                EditTextCorreoElectronico.setText(LstUsuario.get(i).getEmail() != null ? LstUsuario.get(i).getEmail().toString() : "");
+                                SpinnerEstado.setText(LstUsuario.get(i).getEstado() != null ? LstUsuario.get(i).getEstado().toString() : "");
+                            }
+                            CargarPerfilesProfesionalesUsuario();
                         }
                     }
                 }
@@ -290,39 +335,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
-        } catch (Exception e) {
-            progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void CargarInformacionUsuario(List<Usuario> LstUsuario) {
-        try {
-            if (LstUsuario != null) {
-                for (int i = 0; i < LstUsuario.size(); i++) {
-                    String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
-                    String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
-                    String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
-                    String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
-                    String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
-                    EditTextNombreCompleto.setText(sNombreCompleto);
-                    SpinnerTipoIdentificacion.setText(LstUsuario.get(i).getTipoIdentificacion() != null ? LstUsuario.get(i).getTipoIdentificacion().toString() : "");
-                    EditTextIdentificacion.setText(LstUsuario.get(i).getIdentificacion() != null ? LstUsuario.get(i).getIdentificacion().toString() : "");
-                    EditTextFechaNacimiento.setText(LstUsuario.get(i).getFechaNacimiento() != null ? LstUsuario.get(i).getFechaNacimiento().toString() : "");
-                    EditTextEdad.setText(LstUsuario.get(i).getEdad() != null ? LstUsuario.get(i).getEdad().toString() : "");
-                    SpinnerCategoria.setText(LstUsuario.get(i).getCategoria() != null ? LstUsuario.get(i).getCategoria().toString() : "");
-                    SpinnerGenero.setText(LstUsuario.get(i).getGenero() != null ? LstUsuario.get(i).getGenero().toString() : "");
-                    EditTextCelular.setText(LstUsuario.get(i).getCelular() != null ? LstUsuario.get(i).getCelular().toString() : "");
-                    EditTextTelefono.setText(LstUsuario.get(i).getTelefono() != null ? LstUsuario.get(i).getTelefono().toString() : "");
-                    SpinnerDepartamento.setText(LstUsuario.get(i).getDepartamento() != null ? LstUsuario.get(i).getDepartamento().toString() : "");
-                    SpinnerCiudad.setText(LstUsuario.get(i).getCiudad() != null ? LstUsuario.get(i).getCiudad().toString() : "");
-                    EditTextDireccion.setText(LstUsuario.get(i).getDireccion() != null ? LstUsuario.get(i).getDireccion().toString() : "");
-                    EditTextNombreUsuario.setText(LstUsuario.get(i).getUsuario() != null ? LstUsuario.get(i).getUsuario().toString() : "");
-                    EditTextCorreoElectronico.setText(LstUsuario.get(i).getEmail() != null ? LstUsuario.get(i).getEmail().toString() : "");
-                    SpinnerEstado.setText(LstUsuario.get(i).getEstado() != null ? LstUsuario.get(i).getEstado().toString() : "");
-                }
-                progressDialog.dismiss();
-            }
         } catch (Exception e) {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -380,6 +392,46 @@ public class EditarPerfilActivity extends AppCompatActivity {
                         ObjIntent.putExtra("Token", gsToken);
                         startActivity(ObjIntent);
                         finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarPerfilesProfesionalesUsuario () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarPerfilesProfesionales(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstPerfilesProfesionales = (List<PerfilProfesional>) response.body();
+                        if (LstPerfilesProfesionales.size() > 0) {
+                            PerfilProfesionalAdapter = new PerfilProfesionalAdapter(LstPerfilesProfesionales);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EditarPerfilActivity.this);
+                            ReciclerViewPerfilProfesional.setLayoutManager(layoutManager);
+                            ReciclerViewPerfilProfesional.setAdapter(PerfilProfesionalAdapter);
+                            PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sCodigo) {
+                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, PerfilProfesionalActivity.class);
+                                    ObjIntent.putExtra("Token", gsToken);
+                                    ObjIntent.putExtra("Codigo", sCodigo);
+                                    startActivity(ObjIntent);
+                                }
+                            });
+                        }
                     }
                 }
 
