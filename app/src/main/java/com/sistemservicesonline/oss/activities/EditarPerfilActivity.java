@@ -203,6 +203,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
             ImageViewGuardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    progressDialog.show();
                     ActualizarUsuario();
                 }
             });
@@ -388,6 +389,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
+                        progressDialog.dismiss();
                         Intent ObjIntent = new Intent (EditarPerfilActivity.this, MainActivity.class);
                         ObjIntent.putExtra("Token", gsToken);
                         startActivity(ObjIntent);

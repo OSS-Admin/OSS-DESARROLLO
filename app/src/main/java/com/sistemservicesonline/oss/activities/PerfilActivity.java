@@ -85,43 +85,6 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
-    private void ObtenerUsuario (String sToken, final Boolean bInvitado) {
-        try {
-            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarUsuario(sToken);
-            call.enqueue(new Callback() {
-                @Override
-                public void onResponse(Call call, Response response) {
-                    if (response.isSuccessful()) {
-                        if (!bInvitado) {
-                            LstUsuario = (List<Usuario>) response.body();
-                            if (LstUsuario.size() > 0) {
-                                CargarInformacionUsuario(LstUsuario);
-                            } else {
-                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            LstUsuarioInvitado = (List<Usuario>) response.body();
-                            if (LstUsuario.size() > 0) {
-                                CargarInformacionUsuarioInvitado(LstUsuarioInvitado);
-                            } else {
-                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void InicializarControles() {
         try {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,7 +97,6 @@ public class PerfilActivity extends AppCompatActivity {
                     onBackPressed();
                 }
             });
-
 
             progressDialog = new ProgressDialog(PerfilActivity.this);
             progressDialog.setMessage("Cargando...");
@@ -183,6 +145,43 @@ public class PerfilActivity extends AppCompatActivity {
             /*Inicio Button Controls*/
             ButtonContactar = findViewById(R.id.ButtonContactar);
             /*Fin Button Controls*/
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void ObtenerUsuario (String sToken, final Boolean bInvitado) {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarUsuario(sToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        if (!bInvitado) {
+                            LstUsuario = (List<Usuario>) response.body();
+                            if (LstUsuario.size() > 0) {
+                                CargarInformacionUsuario(LstUsuario);
+                            } else {
+                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            LstUsuarioInvitado = (List<Usuario>) response.body();
+                            if (LstUsuario.size() > 0) {
+                                CargarInformacionUsuarioInvitado(LstUsuarioInvitado);
+                            } else {
+                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
