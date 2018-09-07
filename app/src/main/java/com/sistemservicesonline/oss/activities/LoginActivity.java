@@ -4,28 +4,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.sistemservicesonline.oss.appcode.Conexion;
 import com.sistemservicesonline.oss.R;
 import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.interfaces.ApiService;
 import com.sistemservicesonline.oss.services.APIServiceClient;
 
 import java.security.MessageDigest;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
