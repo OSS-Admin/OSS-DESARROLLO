@@ -1,5 +1,6 @@
 package com.sistemservicesonline.oss.interfaces;
 
+import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Maestros;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
@@ -39,6 +40,8 @@ public interface ApiService {
     @DELETE("OSS/Usuarios/{CodigoUsuario}")
     Call<Void> EliminarUsuario(@Query("CodigoUsuario") String CodigoUsuario);
 
+    /*----------------------------------------------------------------------------------------------------------*/
+
     //PerfilesProfesionales
     @GET("OSS/PerfilesProfesionales/CodigoUsuario/{CodigoUsuario}")
     Call<List<PerfilProfesional>> ConsultarPerfilesProfesionales(@Path("CodigoUsuario") String CodigoUsuario);
@@ -54,6 +57,26 @@ public interface ApiService {
 
     @DELETE("OSS/PerfilesProfesionales/{Codigo}")
     Call<Void> EliminarPerfilProfesional(@Path("Codigo") String Codigo);
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    //Experiencias laborales
+    @GET("OSS/ExperienciasLaborales/CodigoUsuario/{CodigoUsuario}")
+    Call<List<ExperienciaLaboral>> ConsultarExperienciasLaborales(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @GET("OSS/ExperienciasLaborales/{Codigo}")
+    Call<List<ExperienciaLaboral>> ConsultarExperienciaLaboral(@Path("Codigo") String Codigo);
+
+    @POST("OSS/ExperienciasLaborales/")
+    Call<Void> RegistrarExperienciaLaboral(@Body ExperienciaLaboral experienciaLaboral);
+
+    @PUT("OSS/ExperienciasLaborales/{Codigo}")
+    Call<Void> ActualizarExperienciaLaboral(@Path("Codigo") String codigo, @Body ExperienciaLaboral experienciaLaboral);
+
+    @DELETE("OSS/ExperienciasLaborales/{Codigo}")
+    Call<Void> EliminarExperienciaLaboral(@Path("Codigo") String Codigo);
+
+    /*----------------------------------------------------------------------------------------------------------*/
 
     //Maestros
     @GET("OSS/Maestros/")

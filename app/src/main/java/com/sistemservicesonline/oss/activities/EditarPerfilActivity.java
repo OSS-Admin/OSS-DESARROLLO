@@ -26,7 +26,9 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sistemservicesonline.oss.R;
+import com.sistemservicesonline.oss.adapters.ExperienciaLaboralAdapter;
 import com.sistemservicesonline.oss.adapters.PerfilProfesionalAdapter;
+import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Maestros;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
@@ -88,9 +90,11 @@ public class EditarPerfilActivity extends AppCompatActivity {
             progressDialog;
 
     RecyclerView
-            ReciclerViewPerfilProfesional;
+            ReciclerViewPerfilProfesional
+            , ReciclerViewExperienciasProfesionaes;
 
     private PerfilProfesionalAdapter PerfilProfesionalAdapter;
+    private ExperienciaLaboralAdapter ExperienciaLaboralAdapter;
 
     private String gsToken = "";
     private String sTokenInvitado = "";
@@ -118,6 +122,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
     List<String> LstCiudades = new ArrayList<>();
     List<String> LstEstados = new ArrayList<>();
     List<PerfilProfesional> LstPerfilesProfesionales = new ArrayList<>();
+    List<ExperienciaLaboral> LstExperienciasLaborales = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +141,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
             ObtenerUsuario();
         } else {
             ObtenerUsuario();
-            progressDialog.dismiss();
         }
     }
 
@@ -225,15 +229,24 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent ObjIntent = new Intent(EditarPerfilActivity.this, PerfilProfesionalActivity.class);
                     ObjIntent.putExtra("Token", gsToken);
-                    ObjIntent.putExtra("Nuevo", "true");
                     startActivity(ObjIntent);
                 }
             });
             ButtonAgregarExperienciaLaboral = findViewById(R.id.ButtonAgregarExperienciaLaboral);
+            ButtonAgregarExperienciaLaboral.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ObjIntent = new Intent(EditarPerfilActivity.this, ExperienciaLaboralActivity.class);
+                    ObjIntent.putExtra("Token", gsToken);
+                    startActivity(ObjIntent);
+                }
+            });
             ButtonAgregarEstudio = findViewById(R.id.ButtonAgregarEstudio);
             /*Fin Buttons*/
 
             ReciclerViewPerfilProfesional = findViewById(R.id.ReciclerViewPerfilProfesional);
+            ReciclerViewExperienciasProfesionaes = findViewById(R.id.ReciclerViewExperienciasProfesionaes);
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -326,6 +339,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                                 SpinnerEstado.setText(LstUsuario.get(i).getEstado() != null ? LstUsuario.get(i).getEstado().toString() : "");
                             }
                             CargarPerfilesProfesionalesUsuario();
+                            CargarExperienciasLaboralesUsuario();
                         }
                     }
                 }
@@ -413,6 +427,47 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private void CargarPerfilesProfesionalesUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarExperienciasLaborales(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstExperienciasLaborales = (List<ExperienciaLaboral>) response.body();
+                        if (LstExperienciasLaborales.size() > 0) {
+                            ExperienciaLaboralAdapter = new ExperienciaLaboralAdapter(LstExperienciasLaborales);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EditarPerfilActivity.this);
+                            ReciclerViewExperienciasProfesionaes.setLayoutManager(layoutManager);
+                            ReciclerViewExperienciasProfesionaes.setAdapter(ExperienciaLaboralAdapter);
+                            ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sCodigo) {
+                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, ExperienciaLaboralActivity.class);
+                                    ObjIntent.putExtra("Token", gsToken);
+                                    ObjIntent.putExtra("Codigo", sCodigo);
+                                    startActivity(ObjIntent);
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarExperienciasLaboralesUsuario () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
             Call call = apiService.ConsultarPerfilesProfesionales(gsToken);
             call.enqueue(new Callback() {
                 @Override
@@ -434,6 +489,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                                 }
                             });
                         }
+                        progressDialog.dismiss();
                     }
                 }
 
