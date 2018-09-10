@@ -28,9 +28,6 @@ import retrofit2.Response;
 
 public class PerfilProfesionalActivity extends AppCompatActivity {
 
-    TextView
-            TextViewCodigoPerfilProfesional;
-
     ImageView
             ImageViewEliminar;
 
@@ -85,8 +82,6 @@ public class PerfilProfesionalActivity extends AppCompatActivity {
         progressDialog.setMessage("Cargando...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-
-        TextViewCodigoPerfilProfesional = findViewById(R.id.TextViewCodigoPerfilProfesional);
 
         EditTextCargoTitulo = findViewById(R.id.EditTextCargoTitulo);
         EditTextDescripcion = findViewById(R.id.EditTextDescripcion);

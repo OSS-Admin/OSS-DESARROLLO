@@ -1,5 +1,6 @@
 package com.sistemservicesonline.oss.interfaces;
 
+import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Maestros;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
@@ -75,6 +76,24 @@ public interface ApiService {
 
     @DELETE("OSS/ExperienciasLaborales/{Codigo}")
     Call<Void> EliminarExperienciaLaboral(@Path("Codigo") String Codigo);
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    //Estudios
+    @GET("OSS/Estudios/CodigoUsuario/{CodigoUsuario}")
+    Call<List<Estudio>> ConsultarEstudios(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @GET("OSS/Estudios/{Codigo}")
+    Call<List<Estudio>> ConsultarEstudio(@Path("Codigo") String Codigo);
+
+    @POST("OSS/Estudios/")
+    Call<Void> RegistrarEstudio(@Body Estudio estudio);
+
+    @PUT("OSS/Estudios/{Codigo}")
+    Call<Void> ActualizarEstudio(@Path("Codigo") String codigo, @Body Estudio estudio);
+
+    @DELETE("OSS/Estudios/{Codigo}")
+    Call<Void> EliminarEstudio(@Path("Codigo") String Codigo);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
