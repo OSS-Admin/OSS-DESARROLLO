@@ -49,7 +49,16 @@
                     android:layout_weight="0.7"
                     android:orientation="vertical">
 
-                    <TextViewNo
+                    <TextView
+                        android:id="@+id/TextViewToken"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:textSize="16dp"
+                        android:text="Token"
+                        android:visibility="gone"/>
+
+                    <TextView
                         android:id="@+id/TextViewNombreUsuario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

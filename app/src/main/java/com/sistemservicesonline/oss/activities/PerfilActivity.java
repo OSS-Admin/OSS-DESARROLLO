@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sistemservicesonline.oss.adapters.EstudioAdapter;
+import com.sistemservicesonline.oss.adapters.ExperienciaLaboralAdapter;
+import com.sistemservicesonline.oss.adapters.PerfilProfesionalAdapter;
+import com.sistemservicesonline.oss.appcode.Estudio;
+import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
+import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.R;
 import com.sistemservicesonline.oss.interfaces.ApiService;
@@ -37,7 +46,11 @@ public class PerfilActivity extends AppCompatActivity {
             , TxvCorreoElectronico
             , TxvCelular
             , TxvTelefono
-            , TxvCiudad;
+            , TxvCiudad
+            , TextViewPerfilProfesional
+            , TextViewExperienciasLaborales
+            , TextViewEstudios
+            , TextViewNombreCompletocoment;
 
     ImageView
               ImageViewEditarPerfil;
@@ -51,17 +64,29 @@ public class PerfilActivity extends AppCompatActivity {
     ProgressDialog
             progressDialog;
 
+    RecyclerView
+            ReciclerViewPerfilProfesional
+            , ReciclerViewExperienciasProfesionaes
+            , ReciclerViewEstudio;
+
     Button
             ButtonContactar;
 
     private String gsToken = "";
-    private String sTokenInvitado = "";
+    private String gsTokenInvitado = "";
+
+    private PerfilProfesionalAdapter PerfilProfesionalAdapter;
+    private ExperienciaLaboralAdapter ExperienciaLaboralAdapter;
+    private EstudioAdapter EstudioAdapter;
 
     RatingBar ratingBar;
     View Header;
 
     List<Usuario> LstUsuario = new ArrayList<>();
     List<Usuario> LstUsuarioInvitado = new ArrayList<>();
+    List<PerfilProfesional> LstPerfilesProfesionales = new ArrayList<>();
+    List<ExperienciaLaboral> LstExperienciasLaborales = new ArrayList<>();
+    List<Estudio> LstEstudios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +94,14 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
-        sTokenInvitado = getIntent().getExtras().getString("TokenInvitado") != null ? getIntent().getExtras().getString("TokenInvitado").toString() : "";
+        gsTokenInvitado = getIntent().getExtras().getString("TokenInvitado") != null ? getIntent().getExtras().getString("TokenInvitado").toString() : "";
 
         InicializarControles();
         if (!gsToken.equals("")) {
             ImageViewEditarPerfil.setVisibility(View.VISIBLE);
             ButtonContactar.setVisibility(View.GONE);
             RelativeLayoutComentarios.setVisibility(View.GONE);
-            ObtenerUsuario(gsToken, false);
-        }
-
-        if (!sTokenInvitado.equals("")) {
-            ImageViewEditarPerfil.setVisibility(View.GONE);
-            ObtenerUsuario(gsToken, true);
+            ObtenerUsuario();
         }
     }
 
@@ -123,6 +143,10 @@ public class PerfilActivity extends AppCompatActivity {
             TxvCelular = findViewById(R.id.TextViewCelular);
             TxvTelefono = findViewById(R.id.TextViewTelefono);
             TxvCiudad = findViewById(R.id.TextViewCiudad);
+            TextViewPerfilProfesional = findViewById(R.id.TextViewPerfilProfesional);
+            TextViewExperienciasLaborales = findViewById(R.id.TextViewExperienciasLaborales);
+            TextViewEstudios = findViewById(R.id.TextViewEstudios);
+            TextViewNombreCompletocoment = findViewById(R.id.TextViewNombreCompletocoment);
             /*Fin TextView Controls*/
 
             /*Inicio ImageView Controls*/
@@ -142,6 +166,12 @@ public class PerfilActivity extends AppCompatActivity {
             RelativeLayoutComentarios = findViewById(R.id.RelativeLayoutComentarios);
             /*Fin LinearLayout Controls*/
 
+            /*Inicio ReciclerView Controls*/
+            ReciclerViewPerfilProfesional = findViewById(R.id.ReciclerViewPerfilProfesional);
+            ReciclerViewExperienciasProfesionaes = findViewById(R.id.ReciclerViewExperienciasProfesionaes);
+            ReciclerViewEstudio = findViewById(R.id.ReciclerViewEstudio);
+            /*Fin ReciclerView Controls*/
+
             /*Inicio Button Controls*/
             ButtonContactar = findViewById(R.id.ButtonContactar);
             /*Fin Button Controls*/
@@ -150,74 +180,209 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
-    private void ObtenerUsuario (String sToken, final Boolean bInvitado) {
+    private void ObtenerUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarUsuario(sToken);
+            Call call = apiService.ConsultarUsuario(gsToken);
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
-                        if (!bInvitado) {
-                            LstUsuario = (List<Usuario>) response.body();
-                            if (LstUsuario.size() > 0) {
-                                CargarInformacionUsuario(LstUsuario);
-                            } else {
-                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+                        LstUsuario = (List<Usuario>) response.body();
+                        if (LstUsuario.size() > 0) {
+                            for (int i = 0; i < LstUsuario.size(); i++) {
+                                String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
+                                String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
+                                String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
+                                String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
+                                String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
+                                TxvNombreCompleto.setText(sNombreCompleto);
+                                TxvEstado.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEstado() : "");
+                                TxvCorreoElectronico.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail() : "");
+                                TxvCelular.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "");
+                                TxvTelefono.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getTelefono() : "");
+                                TxvCiudad.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCiudad() : "");
                             }
-                        } else {
-                            LstUsuarioInvitado = (List<Usuario>) response.body();
-                            if (LstUsuario.size() > 0) {
-                                CargarInformacionUsuarioInvitado(LstUsuarioInvitado);
-                            } else {
-                                Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
+
+                            if (!gsTokenInvitado.equals("")) {
+                                ImageViewEditarPerfil.setVisibility(View.GONE);
+                                ButtonContactar.setVisibility(View.VISIBLE);
+                                RelativeLayoutComentarios.setVisibility(View.VISIBLE);
+                                ObtenerUsuarioInvitado();
                             }
+
+                            CargarPerfilesProfesionalesUsuario();
+                            CargarExperienciasLaboralesUsuario();
+                            CargarEstudiosUsuario();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(),response.message().toString(),Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void CargarInformacionUsuario(List<Usuario> LstUsuario) {
+    private void ObtenerUsuarioInvitado () {
         try {
-            if (LstUsuario != null) {
-                for (int i = 0; i < LstUsuario.size(); i++) {
-                    String sPrimerNombre = LstUsuario.get(i).getPrimerNombre() != null ? LstUsuario.get(i).getPrimerNombre().toString() : "";
-                    String sSegundoNombre = LstUsuario.get(i).getSegundoNombre() != null ? LstUsuario.get(i).getSegundoNombre().toString() : "";
-                    String sPrimerApellido = LstUsuario.get(i).getPrimerApellido() != null ? LstUsuario.get(i).getPrimerApellido().toString() : "";
-                    String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
-                    String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
-                    TxvNombreCompleto.setText(sNombreCompleto);
-                    TxvEstado.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEstado() : "");
-                    TxvCorreoElectronico.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail() : "");
-                    TxvCelular.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "");
-                    TxvTelefono.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getTelefono() : "");
-                    TxvCiudad.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCiudad() : "");
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarUsuario(gsTokenInvitado);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstUsuarioInvitado = (List<Usuario>) response.body();
+                        if (LstUsuarioInvitado.size() > 0) {
+                            for (int i = 0; i < LstUsuarioInvitado.size(); i++) {
+                                TextViewNombreCompletocoment.setText(LstUsuarioInvitado.get(i).getPrimerNombre() + " " + LstUsuarioInvitado.get(i).getSegundoNombre() + " " + LstUsuarioInvitado.get(i).getPrimerApellido() + " " + LstUsuarioInvitado.get(i).getSegundoApellido());
+                            }
+                        }
+                    }
                 }
-                progressDialog.dismiss();
-            }
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void CargarInformacionUsuarioInvitado(List<Usuario> LstUsuarioInvitado) {
+    private void CargarPerfilesProfesionalesUsuario () {
         try {
-            if (LstUsuarioInvitado != null) {
-                for (int i = 0; i < LstUsuarioInvitado.size(); i++) {
-                    //TxvNombreCompleto.setText(LstUsuarioInvitado.get(i) != null ? LstUsuarioInvitado.get(i).getNombreCompleto() : "");
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarPerfilesProfesionales(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstPerfilesProfesionales = (List<PerfilProfesional>) response.body();
+                        if (LstPerfilesProfesionales.size() > 0) {
+                            PerfilProfesionalAdapter = new PerfilProfesionalAdapter(LstPerfilesProfesionales);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
+                            ReciclerViewPerfilProfesional.setLayoutManager(layoutManager);
+                            ReciclerViewPerfilProfesional.setAdapter(PerfilProfesionalAdapter);
+                            PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sCodigo) {
+                                    Intent ObjIntent = new Intent (PerfilActivity.this, PerfilProfesionalActivity.class);
+                                    ObjIntent.putExtra("Token", gsToken);
+                                    ObjIntent.putExtra("Codigo", sCodigo);
+                                    startActivity(ObjIntent);
+                                }
+                            });
+                        } else {
+                            TextViewPerfilProfesional.setVisibility(View.GONE);
+                        }
+                    }
                 }
-            }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarExperienciasLaboralesUsuario () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarExperienciasLaborales(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstExperienciasLaborales = (List<ExperienciaLaboral>) response.body();
+                        if (LstExperienciasLaborales.size() > 0) {
+                            ExperienciaLaboralAdapter = new ExperienciaLaboralAdapter(LstExperienciasLaborales);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
+                            ReciclerViewExperienciasProfesionaes.setLayoutManager(layoutManager);
+                            ReciclerViewExperienciasProfesionaes.setAdapter(ExperienciaLaboralAdapter);
+                            ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sCodigo) {
+                                    Intent ObjIntent = new Intent (PerfilActivity.this, ExperienciaLaboralActivity.class);
+                                    ObjIntent.putExtra("Token", gsToken);
+                                    ObjIntent.putExtra("Codigo", sCodigo);
+                                    startActivity(ObjIntent);
+
+                                }
+                            });
+                        } else {
+                            TextViewExperienciasLaborales.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarEstudiosUsuario () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarEstudios(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstEstudios = (List<Estudio>) response.body();
+                        if (LstEstudios.size() > 0) {
+                            EstudioAdapter = new EstudioAdapter(LstEstudios);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
+                            ReciclerViewEstudio.setLayoutManager(layoutManager);
+                            ReciclerViewEstudio.setAdapter(EstudioAdapter);
+                            EstudioAdapter.setOnItemClickListener(new EstudioAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sCodigo) {
+                                    Intent ObjIntent = new Intent (PerfilActivity.this, EstudiosActivity.class);
+                                    ObjIntent.putExtra("Token", gsToken);
+                                    ObjIntent.putExtra("Codigo", sCodigo);
+                                    startActivity(ObjIntent);
+                                }
+                            });
+                        } else {
+                            TextViewEstudios.setVisibility(View.GONE);
+                        }
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -225,7 +390,7 @@ public class PerfilActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent ObjIntent = new Intent(PerfilActivity.this, MainActivity.class);
-        ObjIntent.putExtra("Token", gsToken);
+        ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
         startActivity(ObjIntent);
         finish();
     }

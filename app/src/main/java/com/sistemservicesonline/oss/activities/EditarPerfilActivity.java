@@ -441,25 +441,24 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private void CargarPerfilesProfesionalesUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarExperienciasLaborales(gsToken);
+            Call call = apiService.ConsultarPerfilesProfesionales(gsToken);
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
-                        LstExperienciasLaborales = (List<ExperienciaLaboral>) response.body();
-                        if (LstExperienciasLaborales.size() > 0) {
-                            ExperienciaLaboralAdapter = new ExperienciaLaboralAdapter(LstExperienciasLaborales);
+                        LstPerfilesProfesionales = (List<PerfilProfesional>) response.body();
+                        if (LstPerfilesProfesionales.size() > 0) {
+                            PerfilProfesionalAdapter = new PerfilProfesionalAdapter(LstPerfilesProfesionales);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EditarPerfilActivity.this);
-                            ReciclerViewExperienciasProfesionaes.setLayoutManager(layoutManager);
-                            ReciclerViewExperienciasProfesionaes.setAdapter(ExperienciaLaboralAdapter);
-                            ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
+                            ReciclerViewPerfilProfesional.setLayoutManager(layoutManager);
+                            ReciclerViewPerfilProfesional.setAdapter(PerfilProfesionalAdapter);
+                            PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int position, String sCodigo) {
-                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, ExperienciaLaboralActivity.class);
+                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, PerfilProfesionalActivity.class);
                                     ObjIntent.putExtra("Token", gsToken);
                                     ObjIntent.putExtra("Codigo", sCodigo);
                                     startActivity(ObjIntent);
-
                                 }
                             });
                         }
@@ -482,24 +481,25 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private void CargarExperienciasLaboralesUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarPerfilesProfesionales(gsToken);
+            Call call = apiService.ConsultarExperienciasLaborales(gsToken);
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response.isSuccessful()) {
-                        LstPerfilesProfesionales = (List<PerfilProfesional>) response.body();
-                        if (LstPerfilesProfesionales.size() > 0) {
-                            PerfilProfesionalAdapter = new PerfilProfesionalAdapter(LstPerfilesProfesionales);
+                        LstExperienciasLaborales = (List<ExperienciaLaboral>) response.body();
+                        if (LstExperienciasLaborales.size() > 0) {
+                            ExperienciaLaboralAdapter = new ExperienciaLaboralAdapter(LstExperienciasLaborales);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EditarPerfilActivity.this);
-                            ReciclerViewPerfilProfesional.setLayoutManager(layoutManager);
-                            ReciclerViewPerfilProfesional.setAdapter(PerfilProfesionalAdapter);
-                            PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
+                            ReciclerViewExperienciasProfesionaes.setLayoutManager(layoutManager);
+                            ReciclerViewExperienciasProfesionaes.setAdapter(ExperienciaLaboralAdapter);
+                            ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int position, String sCodigo) {
-                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, PerfilProfesionalActivity.class);
+                                    Intent ObjIntent = new Intent (EditarPerfilActivity.this, ExperienciaLaboralActivity.class);
                                     ObjIntent.putExtra("Token", gsToken);
                                     ObjIntent.putExtra("Codigo", sCodigo);
                                     startActivity(ObjIntent);
+
                                 }
                             });
                         }

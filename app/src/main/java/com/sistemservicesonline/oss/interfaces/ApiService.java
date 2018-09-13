@@ -2,6 +2,7 @@ package com.sistemservicesonline.oss.interfaces;
 
 import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
+import com.sistemservicesonline.oss.appcode.Favorito;
 import com.sistemservicesonline.oss.appcode.Maestros;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
@@ -94,6 +95,18 @@ public interface ApiService {
 
     @DELETE("OSS/Estudios/{Codigo}")
     Call<Void> EliminarEstudio(@Path("Codigo") String Codigo);
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    //Favoritos
+    @GET("OSS/Usuarios/Favoritos/{CodigoUsuario}")
+    Call<List<Favorito>> ConsultarFavoritos(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @POST("OSS/Usuarios/Favoritos/")
+    Call<Void> RegistrarEstudio(@Body Favorito favorito);
+
+    @DELETE("OSS/Usuarios/Favoritos/{CodigoUsuario}/{CodigoUsuarioFavorito}")
+    Call<Void> EliminarEstudio(@Path("CodigoUsuario") String CodigoUsuario, @Path("CodigoUsuarioFavorito") String CodigoUsuarioFavorito);
 
     /*----------------------------------------------------------------------------------------------------------*/
 

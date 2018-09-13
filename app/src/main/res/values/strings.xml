@@ -14,7 +14,7 @@
     <string name="servicios_item">Servicios</string>
     <string name="usuarios_item">Buscar servicio</string>
     <string name="misservicios_item">Mis servicios</string>
-    <string name="favoritos_item">Favoritos</string>
+    <string name="favoritos_item">Mis Favoritos</string>
     <string name="conversaciones_item">Conversaciones</string>
     <string name="cuenta_item">Mi perfil</string>
     <string name="log_out_item">Cerrar Sesión</string>
