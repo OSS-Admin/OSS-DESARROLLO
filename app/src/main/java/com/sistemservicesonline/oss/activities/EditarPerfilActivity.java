@@ -81,8 +81,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
     ImageView
               ImageViewFotoPerfil
-            , ImageViewGuardar
-            , ImageViewCambiarFechaNacimiento;
+            , ImageViewGuardar;
 
     SwipeRefreshLayout
             swipeRefreshLayout;
@@ -189,6 +188,12 @@ public class EditarPerfilActivity extends AppCompatActivity {
             EditTextNombreCompleto = findViewById(R.id.EditTextNombreCompleto);
             EditTextIdentificacion = findViewById(R.id.EditTextIdentificacion);
             EditTextFechaNacimiento = findViewById(R.id.EditTextFechaNacimiento);
+            EditTextFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    obtenerFecha();
+                }
+            });
             EditTextEdad = findViewById(R.id.EditTextEdad);
             EditTextCelular = findViewById(R.id.EditTextCelular);
             EditTextTelefono = findViewById(R.id.EditTextTelefono);
@@ -198,13 +203,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
             /*Fin MaterialEditText*/
 
             ImageViewFotoPerfil = findViewById(R.id.ImageViewFotoPerfil);
-            ImageViewCambiarFechaNacimiento = findViewById(R.id.ImageViewCambiarFechaNacimiento);
-            ImageViewCambiarFechaNacimiento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    obtenerFecha();
-                }
-            });
 
             /*Inicio ImageView Controls*/
             ImageViewGuardar = findViewById(R.id.ImageViewGuardar);

@@ -1,5 +1,6 @@
 package com.sistemservicesonline.oss.interfaces;
 
+import com.sistemservicesonline.oss.appcode.Comentario;
 import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Favorito;
@@ -107,6 +108,18 @@ public interface ApiService {
 
     @DELETE("OSS/Usuarios/Favoritos/{CodigoUsuario}/{CodigoUsuarioFavorito}")
     Call<Void> EliminarEstudio(@Path("CodigoUsuario") String CodigoUsuario, @Path("CodigoUsuarioFavorito") String CodigoUsuarioFavorito);
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    //Comentarios
+    @GET("OSS/Usuarios/Comentarios/{CodigoUsuario}")
+    Call<List<Comentario>> ConsultarComentarios(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @POST("OSS/Usuarios/Comentarios/")
+    Call<Void> RegistrarComentario(@Body Comentario comentario);
+
+    @DELETE("OSS/Usuarios/Comentarios/{Codigo}")
+    Call<Void> EliminarComentario(@Path("Codigo") String Codigo);
 
     /*----------------------------------------------------------------------------------------------------------*/
 

@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:background="@color/white"
         android:orientation="vertical" >
 
@@ -50,7 +49,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_titulo_single_post_circuito"
+                        android:id="@+id/TextViewNombreUsuario"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -60,20 +59,27 @@
                     <!-- RatingBar de Usuairo -->
 
                     <RatingBar
-                        android:id="@+id/ratingBar"
+                        android:id="@+id/RatingBarCalificacion"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:isIndicator="true" />
 
                     <TextView
-                        android:id="@+id/tv_contenido_single_post_circuito"
+                        android:id="@+id/TextViewDescripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="El usuario ha ofrecido un buen servicio."
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#ff868686" />
+
+                    <TextView
+                        android:id="@+id/TextViewCodigo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Titulo"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

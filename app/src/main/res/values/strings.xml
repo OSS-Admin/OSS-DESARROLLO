@@ -22,4 +22,7 @@
 
     <string name="titlulo_pickers">Obtener fecha</string>
     <string name="formato_fecha">dd/mm/yyyy</string>
+
+
+    <string name="banner_ad_unit_id1">ca-app-pub-3326525809184833/8495106654</string>
 </resources>

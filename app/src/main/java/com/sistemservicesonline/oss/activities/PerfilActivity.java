@@ -18,9 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sistemservicesonline.oss.adapters.ComentariosAdapter;
 import com.sistemservicesonline.oss.adapters.EstudioAdapter;
 import com.sistemservicesonline.oss.adapters.ExperienciaLaboralAdapter;
 import com.sistemservicesonline.oss.adapters.PerfilProfesionalAdapter;
+import com.sistemservicesonline.oss.appcode.Comentario;
 import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
@@ -67,7 +69,8 @@ public class PerfilActivity extends AppCompatActivity {
     RecyclerView
             ReciclerViewPerfilProfesional
             , ReciclerViewExperienciasProfesionaes
-            , ReciclerViewEstudio;
+            , ReciclerViewEstudio
+            , ReciclerViewComentarios;
 
     Button
             ButtonContactar;
@@ -78,6 +81,7 @@ public class PerfilActivity extends AppCompatActivity {
     private PerfilProfesionalAdapter PerfilProfesionalAdapter;
     private ExperienciaLaboralAdapter ExperienciaLaboralAdapter;
     private EstudioAdapter EstudioAdapter;
+    private ComentariosAdapter ComentariosAdapter;
 
     RatingBar ratingBar;
     View Header;
@@ -87,6 +91,7 @@ public class PerfilActivity extends AppCompatActivity {
     List<PerfilProfesional> LstPerfilesProfesionales = new ArrayList<>();
     List<ExperienciaLaboral> LstExperienciasLaborales = new ArrayList<>();
     List<Estudio> LstEstudios = new ArrayList<>();
+    List<Comentario> LstComentarios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +175,7 @@ public class PerfilActivity extends AppCompatActivity {
             ReciclerViewPerfilProfesional = findViewById(R.id.ReciclerViewPerfilProfesional);
             ReciclerViewExperienciasProfesionaes = findViewById(R.id.ReciclerViewExperienciasProfesionaes);
             ReciclerViewEstudio = findViewById(R.id.ReciclerViewEstudio);
+            ReciclerViewComentarios = findViewById(R.id.ReciclerViewComentarios);
             /*Fin ReciclerView Controls*/
 
             /*Inicio Button Controls*/
@@ -212,8 +218,6 @@ public class PerfilActivity extends AppCompatActivity {
                             }
 
                             CargarPerfilesProfesionalesUsuario();
-                            CargarExperienciasLaboralesUsuario();
-                            CargarEstudiosUsuario();
                         }
                     }
                 }
@@ -285,6 +289,7 @@ public class PerfilActivity extends AppCompatActivity {
                         } else {
                             TextViewPerfilProfesional.setVisibility(View.GONE);
                         }
+                        CargarExperienciasLaboralesUsuario();
                     }
                 }
 
@@ -328,6 +333,7 @@ public class PerfilActivity extends AppCompatActivity {
                         } else {
                             TextViewExperienciasLaborales.setVisibility(View.GONE);
                         }
+                        CargarEstudiosUsuario();
                     }
                 }
 
@@ -370,6 +376,40 @@ public class PerfilActivity extends AppCompatActivity {
                         } else {
                             TextViewEstudios.setVisibility(View.GONE);
                         }
+                        CargarComentariosUsuario();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarComentariosUsuario () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarComentarios(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstComentarios = (List<Comentario>) response.body();
+                        if (LstComentarios.size() > 0) {
+                            ComentariosAdapter = new ComentariosAdapter(LstComentarios);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
+                            ReciclerViewComentarios.setLayoutManager(layoutManager);
+                            ReciclerViewComentarios.setAdapter(ComentariosAdapter);
+                        } else {
+                            ReciclerViewComentarios.setVisibility(View.GONE);
+                        }
                         progressDialog.dismiss();
                     }
                 }
@@ -381,6 +421,15 @@ public class PerfilActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void GuardarComentario () {
+        try {
+
         } catch (Exception e) {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

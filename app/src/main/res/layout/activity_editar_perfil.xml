@@ -204,33 +204,19 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-light"
                             android:text="Fecha de Nacimiento"
-                            android:textAllCaps="true"
                             android:textColor="@color/startblue"
+                            android:textAllCaps="true"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
-                        <LinearLayout
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/EditTextFechaNacimiento"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/EditTextFechaNacimiento"
-                                android:layout_width="340dp"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/grey"
-                                android:hint=""
-                                android:singleLine="true"
-                                android:enabled="false"
-                                android:inputType="date"/>
-
-                            <ImageView
-                                android:id="@+id/ImageViewCambiarFechaNacimiento"
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/ic_calendario" />
-
-                        </LinearLayout>
+                            android:backgroundTint="@color/grey"
+                            android:hint="YYYY-MM-DD"
+                            android:singleLine="true"
+                            android:inputType="date"/>
 
                     </LinearLayout>
 

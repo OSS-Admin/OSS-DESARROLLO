@@ -73,8 +73,7 @@ public class RegistrarseActivity extends AppCompatActivity {
             TextViewCambiarFoto;
 
     ImageView
-            ImageViewFotoPerfil,
-            ImageViewCambiarFechaNacimiento;
+            ImageViewFotoPerfil;
 
     ProgressDialog
             progressDialog;
@@ -127,13 +126,6 @@ public class RegistrarseActivity extends AppCompatActivity {
             progressDialog.setCancelable(false);
 
             ImageViewFotoPerfil = findViewById(R.id.ImageViewFotoPerfil);
-            ImageViewCambiarFechaNacimiento = findViewById(R.id.ImageViewCambiarFechaNacimiento);
-            ImageViewCambiarFechaNacimiento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    obtenerFecha();
-                }
-            });
 
             TextViewCambiarFoto = findViewById(R.id.TextViewCambiarFoto);
             TextViewCambiarFoto.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +151,12 @@ public class RegistrarseActivity extends AppCompatActivity {
             EditTextPrimerApellido = findViewById(R.id.EditTextPrimerApellido);
             EditTextSegundoApellido = findViewById(R.id.EditTextSegundoApellido);
             EditTextFechaNacimiento = findViewById(R.id.EditTextFechaNacimiento);
+            EditTextFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    obtenerFecha();
+                }
+            });
             EditTextCelular = findViewById(R.id.EditTextCelular);
             EditTextCorreoElectronico = findViewById(R.id.EditTextCorreoElectronico);
             EditTextContrasena = findViewById(R.id.EditTextContrasena);
