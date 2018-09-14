@@ -1,7 +1,13 @@
 package com.sistemservicesonline.oss.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sistemservicesonline.oss.adapters.ComentariosAdapter;
 import com.sistemservicesonline.oss.adapters.EstudioAdapter;
 import com.sistemservicesonline.oss.adapters.ExperienciaLaboralAdapter;
@@ -25,6 +32,7 @@ import com.sistemservicesonline.oss.adapters.PerfilProfesionalAdapter;
 import com.sistemservicesonline.oss.appcode.Comentario;
 import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
+import com.sistemservicesonline.oss.appcode.Favorito;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
 import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.R;
@@ -34,11 +42,16 @@ import com.sistemservicesonline.oss.services.APIServiceClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PerfilActivity extends AppCompatActivity {
+
+    CircleImageView
+            CircleImageViewNoFavorito
+            , CircleImageViewFavorito;
 
     TextView
               TxvNombreCompleto
@@ -52,7 +65,14 @@ public class PerfilActivity extends AppCompatActivity {
             , TextViewPerfilProfesional
             , TextViewExperienciasLaborales
             , TextViewEstudios
-            , TextViewNombreCompletocoment;
+            , TextViewNombreCompletocoment
+            , TextViewEnviarComentario
+            , TextViewVerMasComentarios
+            , TextViewVerMenosComentarios;
+
+    MaterialEditText
+            EditTextDescripcionComentario
+            , EditTextMensaje;
 
     ImageView
               ImageViewEditarPerfil;
@@ -73,18 +93,24 @@ public class PerfilActivity extends AppCompatActivity {
             , ReciclerViewComentarios;
 
     Button
-            ButtonContactar;
+            ButtonContactar
+            , ButtonEnviarMensaje
+            , ButtonLlamar;
 
     private String gsToken = "";
     private String gsTokenInvitado = "";
-
+    private String gsDescripcionComentario = "";
+    private Float gsCalificacionComentario;
+    private String gsFavorito = "";
+    private String gsTopComentarios = "5";
+    private String gsCelularUsuario = "";
     private PerfilProfesionalAdapter PerfilProfesionalAdapter;
     private ExperienciaLaboralAdapter ExperienciaLaboralAdapter;
     private EstudioAdapter EstudioAdapter;
     private ComentariosAdapter ComentariosAdapter;
-
-    RatingBar ratingBar;
-    View Header;
+    private static final int SOLICITUD_PERMISO_LLAMADA = 1;
+    private Intent ObjIntentLlamada;
+    private RatingBar RatingBarCalificacionComentario;
 
     List<Usuario> LstUsuario = new ArrayList<>();
     List<Usuario> LstUsuarioInvitado = new ArrayList<>();
@@ -100,6 +126,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
         gsTokenInvitado = getIntent().getExtras().getString("TokenInvitado") != null ? getIntent().getExtras().getString("TokenInvitado").toString() : "";
+        gsFavorito = getIntent().getExtras().getString("Favorito") != null ? getIntent().getExtras().getString("Favorito").toString() : "";
 
         InicializarControles();
         if (!gsToken.equals("")) {
@@ -110,9 +137,11 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para inicializar todos los controles que existen en el acitivy.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void InicializarControles() {
         try {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_atras));
@@ -137,7 +166,24 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             });
 
-            ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            CircleImageViewNoFavorito = findViewById(R.id.CircleImageViewNoFavorito);
+            CircleImageViewNoFavorito.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressDialog.show();
+                    GuardarFavorito();
+                }
+            });
+            CircleImageViewFavorito = findViewById(R.id.CircleImageViewFavorito);
+            CircleImageViewFavorito.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressDialog.show();
+                    EliminarFavorito();
+                }
+            });
+
+            RatingBarCalificacionComentario = (RatingBar) findViewById(R.id.RatingBarCalificacionComentario);
 
             /*Inicio TextView Controls*/
             TxvNombreCompleto = findViewById(R.id.TextViewNombreCompleto);
@@ -152,7 +198,41 @@ public class PerfilActivity extends AppCompatActivity {
             TextViewExperienciasLaborales = findViewById(R.id.TextViewExperienciasLaborales);
             TextViewEstudios = findViewById(R.id.TextViewEstudios);
             TextViewNombreCompletocoment = findViewById(R.id.TextViewNombreCompletocoment);
+            TextViewEnviarComentario = findViewById(R.id.TextViewEnviarComentario);
+            TextViewEnviarComentario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressDialog.show();
+                    GuardarComentario();
+                }
+            });
+            TextViewVerMasComentarios = findViewById(R.id.TextViewVerMasComentarios);
+            TextViewVerMasComentarios.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressDialog.show();
+                    gsTopComentarios = "250";
+                    TextViewVerMasComentarios.setVisibility(View.GONE);
+                    TextViewVerMenosComentarios.setVisibility(View.VISIBLE);
+                    CargarComentariosUsuario();
+                }
+            });
+            TextViewVerMenosComentarios = findViewById(R.id.TextViewVerMenosComentarios);
+            TextViewVerMenosComentarios.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    progressDialog.show();
+                    gsTopComentarios = "5";
+                    TextViewVerMenosComentarios.setVisibility(View.GONE);
+                    TextViewVerMasComentarios.setVisibility(View.VISIBLE);
+                    CargarComentariosUsuario();
+                }
+            });
             /*Fin TextView Controls*/
+
+            /*Inicio EditText Controls*/
+            EditTextDescripcionComentario = findViewById(R.id.EditTextDescripcionComentario);
+            /*Fin EditText Controls*/
 
             /*Inicio ImageView Controls*/
             ImageViewEditarPerfil = findViewById(R.id.ImageViewEditarPerfil);
@@ -180,12 +260,43 @@ public class PerfilActivity extends AppCompatActivity {
 
             /*Inicio Button Controls*/
             ButtonContactar = findViewById(R.id.ButtonContactar);
+            ButtonContactar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(PerfilActivity.this);
+                    View mView = getLayoutInflater().inflate(R.layout.alert_contactar, null);
+
+                    EditTextMensaje = mView.findViewById(R.id.EditTextMensaje);
+                    ButtonEnviarMensaje = mView.findViewById(R.id.ButtonEnviarMensaje);
+                    ButtonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!EditTextMensaje.getText().equals("")){
+                                Toast.makeText(getApplicationContext(), EditTextMensaje.getText(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    ButtonLlamar = mView.findViewById(R.id.ButtonLlamar);
+                    ButtonLlamar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            RealizarLlamada();
+                        }
+                    });
+                    mBuilder.setView(mView).setTitle("OSS").setMessage("Seleccione una opción");
+                    AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                }
+            });
             /*Fin Button Controls*/
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
+    //Metodo para cargar los datos del usuario visitado o el usuario propio iniciado.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void ObtenerUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
@@ -203,9 +314,11 @@ public class PerfilActivity extends AppCompatActivity {
                                 String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
                                 String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
                                 TxvNombreCompleto.setText(sNombreCompleto);
+                                TxvCalificacion.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCalificacion() : "0");
                                 TxvEstado.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEstado() : "");
                                 TxvCorreoElectronico.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail() : "");
-                                TxvCelular.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "");
+                                gsCelularUsuario = LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "";
+                                TxvCelular.setText(gsCelularUsuario);
                                 TxvTelefono.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getTelefono() : "");
                                 TxvCiudad.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCiudad() : "");
                             }
@@ -214,7 +327,10 @@ public class PerfilActivity extends AppCompatActivity {
                                 ImageViewEditarPerfil.setVisibility(View.GONE);
                                 ButtonContactar.setVisibility(View.VISIBLE);
                                 RelativeLayoutComentarios.setVisibility(View.VISIBLE);
+                                if (!gsFavorito.isEmpty()) { CircleImageViewNoFavorito.setVisibility(View.GONE); CircleImageViewFavorito.setVisibility(View.VISIBLE); }
                                 ObtenerUsuarioInvitado();
+                            } else {
+                                CircleImageViewNoFavorito.setVisibility(View.GONE);
                             }
 
                             CargarPerfilesProfesionalesUsuario();
@@ -234,6 +350,8 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para cargar los datos del usuario invitado y asi mostrarlos al momento de realizar un comentario.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void ObtenerUsuarioInvitado () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
@@ -263,6 +381,8 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para cargar los perfiles profesionales del usuario.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void CargarPerfilesProfesionalesUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
@@ -306,6 +426,8 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para cargar experiencias laborales del usuario.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void CargarExperienciasLaboralesUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
@@ -350,6 +472,8 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para cargar los estudios que ha hecho en su vida el usuario y asi mostrarlos en el perfil.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void CargarEstudiosUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
@@ -393,10 +517,74 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para guardar un favorito en la lista personalzada del usuario.
+    //Desarrollador: Manuel E. Osorio Ochoa
+    private void GuardarFavorito () {
+        try {
+            Favorito ObjFavorito = new Favorito();
+            ObjFavorito.setCodigoUsuario(gsTokenInvitado);
+            ObjFavorito.setCodigoUsuarioFavorito(gsToken);
+
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.RegistrarFavorito(ObjFavorito);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        CircleImageViewNoFavorito.setVisibility(View.GONE);
+                        CircleImageViewFavorito.setVisibility(View.VISIBLE);
+                    }
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Metodo para eliminar un usuario favorito de tu lista personalizada.
+    //Desarrollador: Manuel E. Osorio Ochoa
+    private void EliminarFavorito() {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.EliminarFavorito(gsTokenInvitado, gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        CircleImageViewNoFavorito.setVisibility(View.VISIBLE);
+                        CircleImageViewFavorito.setVisibility(View.GONE);
+                    }
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Metodo para cargar los comentarios ya registrados del usuario.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void CargarComentariosUsuario () {
         try {
             ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
-            Call call = apiService.ConsultarComentarios(gsToken);
+            Call call = apiService.ConsultarComentarios(gsToken, gsTopComentarios);
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
@@ -409,6 +597,8 @@ public class PerfilActivity extends AppCompatActivity {
                             ReciclerViewComentarios.setAdapter(ComentariosAdapter);
                         } else {
                             ReciclerViewComentarios.setVisibility(View.GONE);
+                            TextViewVerMasComentarios.setVisibility(View.GONE);
+                            TextViewVerMenosComentarios.setVisibility(View.GONE);
                         }
                         progressDialog.dismiss();
                     }
@@ -427,15 +617,77 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para registrar un comentario al usuario visitado.
+    //Desarrollador: Manuel E. Osorio Ochoa
     private void GuardarComentario () {
         try {
+            gsDescripcionComentario = EditTextDescripcionComentario.getText() != null ? EditTextDescripcionComentario.getText().toString() : "";
+            gsCalificacionComentario = RatingBarCalificacionComentario.getRating();
 
+            if (!gsDescripcionComentario.isEmpty() && gsCalificacionComentario > 0) {
+                Comentario ObjComentario = new Comentario();
+                ObjComentario.setCodigoUsuario(gsToken);
+                ObjComentario.setCodigoUsuarioResponsable(gsTokenInvitado);
+                ObjComentario.setDescripcion(gsDescripcionComentario);
+                ObjComentario.setCalificacion(gsCalificacionComentario);
+
+                ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+                Call call = apiService.RegistrarComentario(ObjComentario);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if (response.isSuccessful()) {
+                            EditTextDescripcionComentario.setText("");
+                            RatingBarCalificacionComentario.setRating(0);
+                            CargarComentariosUsuario();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        progressDialog.dismiss();
+                        Log.i("", t.toString());
+                        Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique..", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
+    //Metodo para realizar llamada al usuario visitado.
+    //Desarrollador: Manuel E. Osorio Ochoa
+    private void RealizarLlamada() {
+        ObjIntentLlamada = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + gsCelularUsuario));
+        if (ActivityCompat.checkSelfPermission(PerfilActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(ObjIntentLlamada);
+        } else {
+            ActivityCompat.requestPermissions(PerfilActivity.this, new String[] {Manifest.permission.CALL_PHONE}, SOLICITUD_PERMISO_LLAMADA);
+        }
+    }
+
+    //Metodo para resivir la respues te los permisos del usuario.
+    //Desarrollador: Manuel E. Osorio Ochoa
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case SOLICITUD_PERMISO_LLAMADA :
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startActivity(ObjIntentLlamada);
+                }
+                break;
+        }
+    }
+
+    //Metodo para ir a el activity anterior y cerrar la actual.
+    //Desarrollador: Manuel E. Osorio Ochoa
     @Override
     public void onBackPressed() {
         Intent ObjIntent = new Intent(PerfilActivity.this, MainActivity.class);

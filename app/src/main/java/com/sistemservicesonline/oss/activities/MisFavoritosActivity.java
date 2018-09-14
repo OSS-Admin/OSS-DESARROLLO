@@ -114,8 +114,8 @@ public class MisFavoritosActivity extends AppCompatActivity {
                                     Intent ObjIntent = new Intent (MisFavoritosActivity.this, PerfilActivity.class);
                                     ObjIntent.putExtra("TokenInvitado", gsToken);
                                     ObjIntent.putExtra("Token", sTokenVisitado);
+                                    ObjIntent.putExtra("Favorito", "true");
                                     startActivity(ObjIntent);
-
                                 }
                             });
                         }
@@ -134,5 +134,13 @@ public class MisFavoritosActivity extends AppCompatActivity {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent ObjIntent = new Intent(MisFavoritosActivity.this, MainActivity.class);
+        ObjIntent.putExtra("Token", gsToken);
+        startActivity(ObjIntent);
+        finish();
     }
 }

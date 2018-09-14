@@ -71,6 +71,9 @@ public class Usuario {
     @SerializedName("Contrasena")
     @Expose
     private String contrasena;
+    @SerializedName("Calificacion")
+    @Expose
+    private String calificacion;
 
     public String getCodigoUsuario() {
         return codigoUsuario;
@@ -236,9 +239,7 @@ public class Usuario {
         return perfilProfesional;
     }
 
-    public void setPerfilProfesional(String perfilProfesional) {
-        this.perfilProfesional = perfilProfesional;
-    }
+    public void setPerfilProfesional(String perfilProfesional) { this.perfilProfesional = perfilProfesional; }
 
     public String getContrasena() {
         return contrasena;
@@ -248,4 +249,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public String getCalificacion() { return calificacion; }
+
+    public void setCalificacion(String calificacion) { this.calificacion = calificacion; }
 }

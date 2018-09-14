@@ -8,6 +8,9 @@ public class Comentario {
     @SerializedName("Codigo")
     @Expose
     private String codigo;
+    @SerializedName("CodigoUsuario")
+    @Expose
+    private String codigoUsuario;
     @SerializedName("CodigoUsuarioResponsable")
     @Expose
     private String codigoUsuarioResponsable;
@@ -27,6 +30,14 @@ public class Comentario {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(String codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     public String getCodigoUsuarioResponsable() {

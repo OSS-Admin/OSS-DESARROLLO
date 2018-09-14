@@ -104,16 +104,16 @@ public interface ApiService {
     Call<List<Favorito>> ConsultarFavoritos(@Path("CodigoUsuario") String CodigoUsuario);
 
     @POST("OSS/Usuarios/Favoritos/")
-    Call<Void> RegistrarEstudio(@Body Favorito favorito);
+    Call<Void> RegistrarFavorito(@Body Favorito favorito);
 
     @DELETE("OSS/Usuarios/Favoritos/{CodigoUsuario}/{CodigoUsuarioFavorito}")
-    Call<Void> EliminarEstudio(@Path("CodigoUsuario") String CodigoUsuario, @Path("CodigoUsuarioFavorito") String CodigoUsuarioFavorito);
+    Call<Void> EliminarFavorito(@Path("CodigoUsuario") String CodigoUsuario, @Path("CodigoUsuarioFavorito") String CodigoUsuarioFavorito);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     //Comentarios
-    @GET("OSS/Usuarios/Comentarios/{CodigoUsuario}")
-    Call<List<Comentario>> ConsultarComentarios(@Path("CodigoUsuario") String CodigoUsuario);
+    @GET("OSS/Usuarios/Comentarios/{CodigoUsuario}/{Top}")
+    Call<List<Comentario>> ConsultarComentarios(@Path("CodigoUsuario") String CodigoUsuario, @Path("Top") String Top);
 
     @POST("OSS/Usuarios/Comentarios/")
     Call<Void> RegistrarComentario(@Body Comentario comentario);
