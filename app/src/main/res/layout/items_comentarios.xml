@@ -50,6 +50,7 @@
             <RatingBar
                 android:id="@+id/RatingBarCalificacion"
                 style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true" />

@@ -1,67 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 	android:background="@color/startblue"
-    tools:context=".activities.UsuariosActivity">
+	tools:context=".activities.UsuariosActivity">
 
 	<android.support.v4.widget.SwipeRefreshLayout
 		android:id="@+id/swipe_refresh"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="20dp">
-		
+		android:layout_marginTop="20dp"
+		android:background="@color/white">
+
 		<ScrollView
 			android:id="@+id/scrollView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:scrollbarThumbVertical="@android:color/transparent">
-			
-			<!-- Contenido Principal -->
+
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:orientation="vertical"
-                android:background="@color/white">
+				android:background="@color/white"
+				android:orientation="vertical">
 
-                <!-- LinearLayout para la zona del toolbar. -->
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/startblue"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="@string/servicios_item">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="6dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_buscar"/>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.Toolbar>
-
-				<android.support.design.widget.TabLayout
-					android:id="@+id/TabLayoutCategorias"
+				<android.support.v7.widget.Toolbar
+					android:id="@+id/toolbar"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
+					android:layout_height="?attr/actionBarSize"
+					android:background="@color/startblue"
+					android:theme="@style/ThemeOverlay.AppCompat.Dark"
+					app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+					app:title="@string/app_name" />
 
-            </LinearLayout>
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="100dp"
+					android:background="@color/startblue">
 
-        </ScrollView>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/servicios_item"
+						android:textSize="34sp"
+						android:textColor="@color/white"
+						android:layout_centerInParent="true"/>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+				</RelativeLayout>
 
-	
+				<android.support.v7.widget.RecyclerView
+					android:id="@+id/ReciclerViewUsuarios"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="8"/>
+
+			</LinearLayout>
+
+		</ScrollView>
+
+	</android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -39,6 +40,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     //region declaracion de variables
+    ImageView
+            ImageViewBuscadrUsuario;
+
     TextView
             TextViewNombreCompleto,
             TextViewEmail;
@@ -120,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
         Header = navigationView.getHeaderView(0);
         TextViewNombreCompleto = Header.findViewById(R.id.TextViewNombreUsuario);
         TextViewEmail = Header.findViewById(R.id.TextViewEmail);
+
+        ImageViewBuscadrUsuario = findViewById(R.id.ImageViewBuscadrUsuario);
+        ImageViewBuscadrUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ObjIntent = new Intent(MainActivity.this, UsuariosActivity.class);
+                ObjIntent.putExtra("Token", gsToken);
+                startActivity(ObjIntent);
+            }
+        });
 
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setMessage("Cargando...");

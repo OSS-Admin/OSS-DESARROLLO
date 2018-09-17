@@ -314,7 +314,7 @@ public class PerfilActivity extends AppCompatActivity {
                                 String sSegundoApellido = LstUsuario.get(i).getSegundoApellido() != null ? LstUsuario.get(i).getSegundoApellido().toString() : "";
                                 String sNombreCompleto = sSegundoNombre != "" ? sPrimerNombre + " " + sSegundoNombre + " " + sPrimerApellido + " " + sSegundoApellido : sPrimerNombre + " " + sPrimerApellido + " " + sSegundoApellido;
                                 TxvNombreCompleto.setText(sNombreCompleto);
-                                TxvCalificacion.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCalificacion() : "0");
+                                TxvCalificacion.setText(LstUsuario.get(i) != null ? String.valueOf(LstUsuario.get(i).getCalificacion()) : "0");
                                 TxvEstado.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEstado() : "");
                                 TxvCorreoElectronico.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getEmail() : "");
                                 gsCelularUsuario = LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "";

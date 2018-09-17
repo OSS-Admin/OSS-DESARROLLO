@@ -26,6 +26,9 @@ public class Favorito {
     @SerializedName("PerfilProfesional")
     @Expose
     private String perfilProfesional;
+    @SerializedName("Calificacion")
+    @Expose
+    private Float calificacion;
 
     public String getCodigoUsuario() {
         return codigoUsuario;
@@ -71,16 +74,15 @@ public class Favorito {
         return segundoApellido;
     }
 
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
+    public void setSegundoApellido(String segundoApellido) { this.segundoApellido = segundoApellido; }
 
     public String getPerfilProfesional() {
         return perfilProfesional;
     }
 
-    public void setPerfilProfesional(String perfilProfesional) {
-        this.perfilProfesional = perfilProfesional;
-    }
+    public void setPerfilProfesional(String perfilProfesional) { this.perfilProfesional = perfilProfesional; }
 
+    public Float getCalificacion() { return calificacion; }
+
+    public void setCalificacion(Float calificacion) { this.calificacion = calificacion; }
 }

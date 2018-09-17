@@ -73,7 +73,7 @@ public class Usuario {
     private String contrasena;
     @SerializedName("Calificacion")
     @Expose
-    private String calificacion;
+    private Float calificacion;
 
     public String getCodigoUsuario() {
         return codigoUsuario;
@@ -249,7 +249,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public String getCalificacion() { return calificacion; }
+    public Float getCalificacion() { return calificacion; }
 
-    public void setCalificacion(String calificacion) { this.calificacion = calificacion; }
+    public void setCalificacion(Float calificacion) { this.calificacion = calificacion; }
 }

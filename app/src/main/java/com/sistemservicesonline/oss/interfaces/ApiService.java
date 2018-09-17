@@ -22,8 +22,8 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     //Usuarios
-    @GET("OSS/Usuarios/")
-    Call<List<Usuario>> ConsultarUsuarios();
+    @GET("OSS/Usuarios/ConsultarUsuarios/{CodigoUsuario}")
+    Call<List<Usuario>> ConsultarUsuarios(@Path("CodigoUsuario") String CodigoUsuario);
 
     @GET("OSS/Usuarios/{CodigoUsuario}")
     Call<List<Usuario>> ConsultarUsuario(@Path("CodigoUsuario") String CodigoUsuario);

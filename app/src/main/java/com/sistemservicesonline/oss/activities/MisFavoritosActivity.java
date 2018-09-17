@@ -2,6 +2,7 @@ package com.sistemservicesonline.oss.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +10,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +31,7 @@ import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.interfaces.ApiService;
 import com.sistemservicesonline.oss.services.APIServiceClient;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,6 +141,29 @@ public class MisFavoritosActivity extends AppCompatActivity {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_buscador, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                FavoritosAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override

@@ -1,16 +1,49 @@
 package com.sistemservicesonline.oss.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.sistemservicesonline.oss.R;
+import com.sistemservicesonline.oss.adapters.UsuariosAdapter;
+import com.sistemservicesonline.oss.appcode.Usuario;
+import com.sistemservicesonline.oss.interfaces.ApiService;
+import com.sistemservicesonline.oss.services.APIServiceClient;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsuariosActivity extends AppCompatActivity {
 
+    SwipeRefreshLayout
+            swipeRefreshLayout;
+
+    ProgressDialog
+            progressDialog;
+
+    RecyclerView
+            ReciclerViewUsuarios;
+
     private String gsToken = "";
+    private UsuariosAdapter UsuariosAdapter;
+
+    List<Usuario> LstUsuario = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,21 +52,106 @@ public class UsuariosActivity extends AppCompatActivity {
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
 
-
         InicializarControles();
+        CargarUsuarios();
     }
 
     private void InicializarControles() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_atras));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        try {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_atras));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+
+            swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+
+            progressDialog = new ProgressDialog(UsuariosActivity.this);
+            progressDialog.setMessage("Cargando...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+
+            ReciclerViewUsuarios = findViewById(R.id.ReciclerViewUsuarios);
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void CargarUsuarios () {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Call call = apiService.ConsultarUsuarios(gsToken);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        LstUsuario = (List<Usuario>) response.body();
+                        if (LstUsuario.size() > 0) {
+                            UsuariosAdapter = new UsuariosAdapter(LstUsuario);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(UsuariosActivity.this);
+                            ReciclerViewUsuarios.setLayoutManager(layoutManager);
+                            ReciclerViewUsuarios.setAdapter(UsuariosAdapter);
+                            UsuariosAdapter.setOnItemClickListener(new UsuariosAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, String sTokenVisitado) {
+                                    Intent ObjIntent = new Intent (UsuariosActivity.this, PerfilActivity.class);
+                                    ObjIntent.putExtra("TokenInvitado", gsToken);
+                                    ObjIntent.putExtra("Token", sTokenVisitado);
+                                    startActivity(ObjIntent);
+                                }
+                            });
+                        }
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("", t.toString());
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_buscador, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                onBackPressed();
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                UsuariosAdapter.getFilter().filter(newText);
+                return false;
             }
         });
+        return true;
     }
 
     @Override
