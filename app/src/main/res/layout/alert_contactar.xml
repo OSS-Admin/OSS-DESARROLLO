@@ -10,6 +10,203 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/LinearLayoutFechaServicio"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Fecha Servicio"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/EditTextFechaServicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:hint=""
+                    android:singleLine="true"
+                    android:inputType="datetime"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Hora Servicio"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/EditTextHoraServicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:hint=""
+                    android:singleLine="true"
+                    android:inputType="datetime"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutFechasInicialesFinales"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:layout_marginRight="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Fecha inicial"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextFechaInicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="datetime"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Hora inicial"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextHoraInicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="datetime"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:layout_marginRight="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Fecha final"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextFechaFinal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="datetime"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Hora final"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EditTextHoraFinal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:hint=""
+                        android:singleLine="true"
+                        android:inputType="datetime"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -21,18 +218,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="Enviar mensaje"
-                android:textAllCaps="true"
+                android:text="Descripciòn"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/EditTextMensaje"
+                android:id="@+id/EditTextDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/grey"
                 android:hint=""
-                android:singleLine="true"
+                android:singleLine="false"
                 android:inputType="text"/>
 
         </LinearLayout>
@@ -47,12 +243,11 @@
             android:layout_marginBottom="10dp">
 
             <Button
-                android:id="@+id/ButtonEnviarMensaje"
+                android:id="@+id/ButtonContratar"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/tw_btn"
-                android:hint="Enviar Mensaje"
-                android:padding="20dp"
+                android:hint="Contratar"
                 android:textColorHint="#fff"
                 android:textSize="16dp"
                 android:layout_weight="1"
@@ -64,7 +259,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/tw_btn"
                 android:hint="Llamar"
-                android:padding="20dp"
                 android:textColorHint="#fff"
                 android:textSize="16dp"
                 android:layout_weight="1"/>

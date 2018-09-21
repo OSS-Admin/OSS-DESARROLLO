@@ -121,7 +121,7 @@ public class MisFavoritosActivity extends AppCompatActivity {
                                     Intent ObjIntent = new Intent (MisFavoritosActivity.this, PerfilActivity.class);
                                     ObjIntent.putExtra("TokenInvitado", gsToken);
                                     ObjIntent.putExtra("Token", sTokenVisitado);
-                                    ObjIntent.putExtra("Favorito", "true");
+                                    ObjIntent.putExtra("Origen", "Favorito");
                                     startActivity(ObjIntent);
                                 }
                             });

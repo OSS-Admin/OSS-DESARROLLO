@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:layout_margin="5dp">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/RadioButtonArteDiseno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ArteDiseno"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonVehiculos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Vehiculos"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonBelleza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Belleza"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonDeportes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Deportes"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonEducacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Educacion"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonEntretenimiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Entretenimiento"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonMedicina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Medicina"
+            android:buttonTint="@color/startblue"/>
+
+        <RadioButton
+            android:id="@+id/RadioButtonServiciosTecnicos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ServiciosTecnicos"
+            android:buttonTint="@color/startblue"/>
+
+    </RadioGroup>
+
+</LinearLayout>

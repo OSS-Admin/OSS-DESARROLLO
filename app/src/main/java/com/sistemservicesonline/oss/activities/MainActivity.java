@@ -171,16 +171,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { FiltrarPorCategoria("CTG6"); }
         });
-        CardViewCatServiciosTecnicos = (CardView) findViewById(R.id.CardViewCatServiciosTecnicos);
-        CardViewCatServiciosTecnicos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { FiltrarPorCategoria("CTG7"); }
-        });
         CardViewCatMedicina = (CardView) findViewById(R.id.CardViewCatMedicina);
         CardViewCatMedicina.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(View view) { FiltrarPorCategoria("CTG7"); }
+        });
+        CardViewCatServiciosTecnicos = (CardView) findViewById(R.id.CardViewCatServiciosTecnicos);
+        CardViewCatServiciosTecnicos.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) { FiltrarPorCategoria("CTG8"); }
         });
+
     }
 
     // Fecha         : 20180726

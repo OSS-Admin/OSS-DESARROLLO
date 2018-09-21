@@ -23,6 +23,15 @@
     <string name="titlulo_pickers">Obtener fecha</string>
     <string name="formato_fecha">dd/mm/yyyy</string>
 
+    <!-- Categorias -->
+    <string name="ArteDiseno">Arte y Diseño</string>
+    <string name="Vehiculos">Vehiculos</string>
+    <string name="Belleza">Belleza</string>
+    <string name="Deportes">Deportes</string>
+    <string name="Educacion">Educación</string>
+    <string name="Entretenimiento">Entretenimiento</string>
+    <string name="ServiciosTecnicos">Servicios Técnicos</string>
+    <string name="Medicina">Medicina</string>
 
     <string name="banner_ad_unit_id1">ca-app-pub-3326525809184833/8495106654</string>
 </resources>

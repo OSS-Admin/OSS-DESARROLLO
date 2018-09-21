@@ -6,6 +6,7 @@ import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Favorito;
 import com.sistemservicesonline.oss.appcode.Maestros;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
+import com.sistemservicesonline.oss.appcode.Servicio;
 import com.sistemservicesonline.oss.appcode.Usuario;
 
 import java.util.List;
@@ -22,8 +23,8 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     //Usuarios
-    @GET("OSS/Usuarios/ConsultarUsuarios/{CodigoUsuario}")
-    Call<List<Usuario>> ConsultarUsuarios(@Path("CodigoUsuario") String CodigoUsuario);
+    @GET("OSS/Usuarios/ConsultarUsuarios/{CodigoUsuario}/{Categoria}")
+    Call<List<Usuario>> ConsultarUsuarios(@Path("CodigoUsuario") String CodigoUsuario, @Path("Categoria") String Categoria);
 
     @GET("OSS/Usuarios/{CodigoUsuario}")
     Call<List<Usuario>> ConsultarUsuario(@Path("CodigoUsuario") String CodigoUsuario);
@@ -120,6 +121,21 @@ public interface ApiService {
 
     @DELETE("OSS/Usuarios/Comentarios/{Codigo}")
     Call<Void> EliminarComentario(@Path("Codigo") String Codigo);
+
+    /*----------------------------------------------------------------------------------------------------------*/
+
+    //Servicios
+    @GET("OSS/Usuarios/Servicios/{CodigoUsuario}/")
+    Call<List<Servicio>> ConsultarServicios(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @POST("OSS/Usuarios/Servicios/")
+    Call<Void> RegistrarServicio(@Body Servicio servicio);
+
+    @PUT("OSS/Usuarios/Servicios/{Codigo}")
+    Call<Void> ActualizarServicio(@Path("Codigo") String codigo, @Body Servicio servicio);
+
+    @DELETE("OSS/Usuarios/Servicios/")
+    Call<Void> EliminarServicio(@Body Servicio servicio);
 
     /*----------------------------------------------------------------------------------------------------------*/
 

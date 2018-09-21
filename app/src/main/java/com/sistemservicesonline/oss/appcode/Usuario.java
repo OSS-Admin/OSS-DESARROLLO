@@ -32,6 +32,9 @@ public class Usuario {
     @SerializedName("Edad")
     @Expose
     private Integer edad;
+    @SerializedName("CodigoCategoria")
+    @Expose
+    private String codigoCategoria;
     @SerializedName("Categoria")
     @Expose
     private String categoria;
@@ -87,9 +90,7 @@ public class Usuario {
         return tipoIdentificacion;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion) {
-        this.tipoIdentificacion = tipoIdentificacion;
-    }
+    public void setTipoIdentificacion(String tipoIdentificacion) { this.tipoIdentificacion = tipoIdentificacion; }
 
     public String getIdentificacion() {
         return identificacion;
@@ -127,17 +128,13 @@ public class Usuario {
         return segundoApellido;
     }
 
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
+    public void setSegundoApellido(String segundoApellido) { this.segundoApellido = segundoApellido; }
 
     public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+    public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
 
     public Integer getEdad() {
         return edad;
@@ -146,6 +143,10 @@ public class Usuario {
     public void setEdad(Integer edad) {
         this.edad = edad;
     }
+
+    public String getCodigoCategoria() { return codigoCategoria; }
+
+    public void setCodigoCategoria(String codigoCategoria) { this.codigoCategoria = codigoCategoria; }
 
     public String getCategoria() {
         return categoria;

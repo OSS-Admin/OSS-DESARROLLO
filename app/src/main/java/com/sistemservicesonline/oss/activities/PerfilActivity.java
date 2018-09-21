@@ -2,7 +2,9 @@ package com.sistemservicesonline.oss.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,11 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -34,12 +39,19 @@ import com.sistemservicesonline.oss.appcode.Estudio;
 import com.sistemservicesonline.oss.appcode.ExperienciaLaboral;
 import com.sistemservicesonline.oss.appcode.Favorito;
 import com.sistemservicesonline.oss.appcode.PerfilProfesional;
+import com.sistemservicesonline.oss.appcode.Servicio;
 import com.sistemservicesonline.oss.appcode.Usuario;
 import com.sistemservicesonline.oss.R;
 import com.sistemservicesonline.oss.interfaces.ApiService;
 import com.sistemservicesonline.oss.services.APIServiceClient;
 
+import net.sourceforge.jtds.jdbc.DateTime;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,10 +67,10 @@ public class PerfilActivity extends AppCompatActivity {
 
     TextView
               TxvNombreCompleto
-            , TxvNumeroServicios
             , TxvCalificacion
             , TxvEstado
             , TxvCorreoElectronico
+            , TextViewDepartamento
             , TxvCelular
             , TxvTelefono
             , TxvCiudad
@@ -72,7 +84,9 @@ public class PerfilActivity extends AppCompatActivity {
 
     MaterialEditText
             EditTextDescripcionComentario
-            , EditTextMensaje;
+            , EditTextFechaServicio
+            , EditTextHoraServicio
+            , EditTextDescripcion;
 
     ImageView
               ImageViewEditarPerfil;
@@ -94,23 +108,41 @@ public class PerfilActivity extends AppCompatActivity {
 
     Button
             ButtonContactar
-            , ButtonEnviarMensaje
+            , ButtonContratar
             , ButtonLlamar;
 
+    LinearLayout
+            LinearLayoutFechaServicio;
+
     private String gsToken = "";
+    private String gsOrigen = "";
     private String gsTokenInvitado = "";
     private String gsDescripcionComentario = "";
     private Float gsCalificacionComentario;
-    private String gsFavorito = "";
     private String gsTopComentarios = "5";
     private String gsCelularUsuario = "";
+    private String gsFechaServicio = "";
+    private String gsHoraServicio = "";
+    private String gsDescripcionServicio = "";
+    private String gsEstadoServicio = "";
+    private static final int SOLICITUD_PERMISO_LLAMADA = 1;
+    private static final String CERO = "0";
+    private static final String BARRA = "-";
+
+    private Intent ObjIntentLlamada;
+    private RatingBar RatingBarCalificacionComentario;
     private PerfilProfesionalAdapter PerfilProfesionalAdapter;
     private ExperienciaLaboralAdapter ExperienciaLaboralAdapter;
     private EstudioAdapter EstudioAdapter;
     private ComentariosAdapter ComentariosAdapter;
-    private static final int SOLICITUD_PERMISO_LLAMADA = 1;
-    private Intent ObjIntentLlamada;
-    private RatingBar RatingBarCalificacionComentario;
+
+    public final Calendar c = Calendar.getInstance();
+    final int mes = c.get(Calendar.MONTH);
+    final int dia = c.get(Calendar.DAY_OF_MONTH);
+    final int anio = c.get(Calendar.YEAR) - 18;
+    final int hour = c.get(Calendar.HOUR_OF_DAY);
+    final int minute = c.get(Calendar.MINUTE);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
 
     List<Usuario> LstUsuario = new ArrayList<>();
     List<Usuario> LstUsuarioInvitado = new ArrayList<>();
@@ -126,7 +158,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         gsToken = getIntent().getExtras().getString("Token") != null ? getIntent().getExtras().getString("Token").toString() : "";
         gsTokenInvitado = getIntent().getExtras().getString("TokenInvitado") != null ? getIntent().getExtras().getString("TokenInvitado").toString() : "";
-        gsFavorito = getIntent().getExtras().getString("Favorito") != null ? getIntent().getExtras().getString("Favorito").toString() : "";
+        gsOrigen = getIntent().getExtras().getString("Origen") != null ? getIntent().getExtras().getString("Origen").toString() : "";
 
         InicializarControles();
         if (!gsToken.equals("")) {
@@ -155,7 +187,6 @@ public class PerfilActivity extends AppCompatActivity {
             progressDialog = new ProgressDialog(PerfilActivity.this);
             progressDialog.setMessage("Cargando...");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
             progressDialog.setCancelable(false);
 
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -187,10 +218,10 @@ public class PerfilActivity extends AppCompatActivity {
 
             /*Inicio TextView Controls*/
             TxvNombreCompleto = findViewById(R.id.TextViewNombreCompleto);
-            TxvNumeroServicios = findViewById(R.id.TextViewNumeroServicios);
             TxvCalificacion = findViewById(R.id.TextViewCalificacion);
             TxvEstado = findViewById(R.id.TextViewEstado);
             TxvCorreoElectronico = findViewById(R.id.TextViewCorreoElectronico);
+            TextViewDepartamento = findViewById(R.id.TextViewDepartamento);
             TxvCelular = findViewById(R.id.TextViewCelular);
             TxvTelefono = findViewById(R.id.TextViewTelefono);
             TxvCiudad = findViewById(R.id.TextViewCiudad);
@@ -267,14 +298,28 @@ public class PerfilActivity extends AppCompatActivity {
                     AlertDialog.Builder mBuilder = new AlertDialog.Builder(PerfilActivity.this);
                     View mView = getLayoutInflater().inflate(R.layout.alert_contactar, null);
 
-                    EditTextMensaje = mView.findViewById(R.id.EditTextMensaje);
-                    ButtonEnviarMensaje = mView.findViewById(R.id.ButtonEnviarMensaje);
-                    ButtonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
+                    EditTextFechaServicio = mView.findViewById(R.id.EditTextFechaServicio);
+                    EditTextFechaServicio.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (!EditTextMensaje.getText().equals("")){
-                                Toast.makeText(getApplicationContext(), EditTextMensaje.getText(), Toast.LENGTH_SHORT).show();
-                            }
+                            obtenerFecha("FechaServicio");
+                        }
+                    });
+                    EditTextHoraServicio = mView.findViewById(R.id.EditTextHoraServicio);
+                    EditTextHoraServicio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            obtenerHora("HoraServicio");
+                        }
+                    });
+                    EditTextDescripcion = mView.findViewById(R.id.EditTextDescripcion);
+                    LinearLayoutFechaServicio = mView.findViewById(R.id.LinearLayoutFechaServicio);
+
+                    ButtonContratar = mView.findViewById(R.id.ButtonContratar);
+                    ButtonContratar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SolicitarServicio();
                         }
                     });
                     ButtonLlamar = mView.findViewById(R.id.ButtonLlamar);
@@ -284,7 +329,7 @@ public class PerfilActivity extends AppCompatActivity {
                             RealizarLlamada();
                         }
                     });
-                    mBuilder.setView(mView).setTitle("OSS").setMessage("Seleccione una opción");
+                    mBuilder.setView(mView).setTitle("OSS");
                     AlertDialog dialog = mBuilder.create();
                     dialog.show();
                 }
@@ -320,6 +365,7 @@ public class PerfilActivity extends AppCompatActivity {
                                 gsCelularUsuario = LstUsuario.get(i) != null ? LstUsuario.get(i).getCelular() : "";
                                 TxvCelular.setText(gsCelularUsuario);
                                 TxvTelefono.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getTelefono() : "");
+                                TextViewDepartamento.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getDepartamento() : "");
                                 TxvCiudad.setText(LstUsuario.get(i) != null ? LstUsuario.get(i).getCiudad() : "");
                             }
 
@@ -327,7 +373,7 @@ public class PerfilActivity extends AppCompatActivity {
                                 ImageViewEditarPerfil.setVisibility(View.GONE);
                                 ButtonContactar.setVisibility(View.VISIBLE);
                                 RelativeLayoutComentarios.setVisibility(View.VISIBLE);
-                                if (!gsFavorito.isEmpty()) { CircleImageViewNoFavorito.setVisibility(View.GONE); CircleImageViewFavorito.setVisibility(View.VISIBLE); }
+                                if (gsOrigen.equals("Favorito")) { CircleImageViewNoFavorito.setVisibility(View.GONE); CircleImageViewFavorito.setVisibility(View.VISIBLE); }
                                 ObtenerUsuarioInvitado();
                             } else {
                                 CircleImageViewNoFavorito.setVisibility(View.GONE);
@@ -397,15 +443,17 @@ public class PerfilActivity extends AppCompatActivity {
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
                             ReciclerViewPerfilProfesional.setLayoutManager(layoutManager);
                             ReciclerViewPerfilProfesional.setAdapter(PerfilProfesionalAdapter);
-                            PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position, String sCodigo) {
-                                    Intent ObjIntent = new Intent (PerfilActivity.this, PerfilProfesionalActivity.class);
-                                    ObjIntent.putExtra("Token", gsToken);
-                                    ObjIntent.putExtra("Codigo", sCodigo);
-                                    startActivity(ObjIntent);
-                                }
-                            });
+                            if (gsTokenInvitado.equals("")) {
+                                PerfilProfesionalAdapter.setOnItemClickListener(new PerfilProfesionalAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(int position, String sCodigo) {
+                                        Intent ObjIntent = new Intent(PerfilActivity.this, PerfilProfesionalActivity.class);
+                                        ObjIntent.putExtra("Token", gsToken);
+                                        ObjIntent.putExtra("Codigo", sCodigo);
+                                        startActivity(ObjIntent);
+                                    }
+                                });
+                            }
                         } else {
                             TextViewPerfilProfesional.setVisibility(View.GONE);
                         }
@@ -442,16 +490,18 @@ public class PerfilActivity extends AppCompatActivity {
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
                             ReciclerViewExperienciasProfesionaes.setLayoutManager(layoutManager);
                             ReciclerViewExperienciasProfesionaes.setAdapter(ExperienciaLaboralAdapter);
-                            ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position, String sCodigo) {
-                                    Intent ObjIntent = new Intent (PerfilActivity.this, ExperienciaLaboralActivity.class);
-                                    ObjIntent.putExtra("Token", gsToken);
-                                    ObjIntent.putExtra("Codigo", sCodigo);
-                                    startActivity(ObjIntent);
+                            if (gsTokenInvitado.equals("")) {
+                                ExperienciaLaboralAdapter.setOnItemClickListener(new ExperienciaLaboralAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(int position, String sCodigo) {
+                                        Intent ObjIntent = new Intent(PerfilActivity.this, ExperienciaLaboralActivity.class);
+                                        ObjIntent.putExtra("Token", gsToken);
+                                        ObjIntent.putExtra("Codigo", sCodigo);
+                                        startActivity(ObjIntent);
 
-                                }
-                            });
+                                    }
+                                });
+                            }
                         } else {
                             TextViewExperienciasLaborales.setVisibility(View.GONE);
                         }
@@ -488,15 +538,17 @@ public class PerfilActivity extends AppCompatActivity {
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PerfilActivity.this);
                             ReciclerViewEstudio.setLayoutManager(layoutManager);
                             ReciclerViewEstudio.setAdapter(EstudioAdapter);
-                            EstudioAdapter.setOnItemClickListener(new EstudioAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position, String sCodigo) {
-                                    Intent ObjIntent = new Intent (PerfilActivity.this, EstudiosActivity.class);
-                                    ObjIntent.putExtra("Token", gsToken);
-                                    ObjIntent.putExtra("Codigo", sCodigo);
-                                    startActivity(ObjIntent);
-                                }
-                            });
+                            if (gsTokenInvitado.equals("")) {
+                                EstudioAdapter.setOnItemClickListener(new EstudioAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(int position, String sCodigo) {
+                                        Intent ObjIntent = new Intent(PerfilActivity.this, EstudiosActivity.class);
+                                        ObjIntent.putExtra("Token", gsToken);
+                                        ObjIntent.putExtra("Codigo", sCodigo);
+                                        startActivity(ObjIntent);
+                                    }
+                                });
+                            }
                         } else {
                             TextViewEstudios.setVisibility(View.GONE);
                         }
@@ -511,6 +563,51 @@ public class PerfilActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
                 }
             });
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void SolicitarServicio() {
+        try {
+            ApiService apiService = APIServiceClient.getClient().create(ApiService.class);
+            Servicio ObjServicio = new Servicio();
+
+            gsFechaServicio = EditTextFechaServicio.getText() != null ? EditTextFechaServicio.getText().toString() : "";
+            gsHoraServicio = EditTextHoraServicio.getText() != null ? EditTextHoraServicio.getText().toString() : "";
+            gsDescripcionServicio = EditTextDescripcion.getText() != null ? EditTextDescripcion.getText().toString() : "";
+            gsEstadoServicio = "";
+
+            if (!gsFechaServicio.isEmpty() && !gsHoraServicio.isEmpty() || !gsDescripcionServicio.isEmpty()) {
+                ObjServicio.setCodigoUsuario(gsTokenInvitado);
+                ObjServicio.setCodigoUsuarioServicio(gsToken);
+                ObjServicio.setFechaServicio(gsFechaServicio.replace("-", "") + " " + gsHoraServicio);
+                ObjServicio.setDescripcion(gsEstadoServicio);
+                ObjServicio.setEstado("ESTS1");
+
+                Call call = apiService.RegistrarServicio(ObjServicio);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if (response.isSuccessful()) {
+                            Intent ObjIntent = new Intent(PerfilActivity.this, MisServiciosActivity.class);
+                            ObjIntent.putExtra("Token", gsTokenInvitado);
+                            startActivity(ObjIntent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        progressDialog.dismiss();
+                        Log.i("", t.toString());
+                        Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -690,9 +787,66 @@ public class PerfilActivity extends AppCompatActivity {
     //Desarrollador: Manuel E. Osorio Ochoa
     @Override
     public void onBackPressed() {
-        Intent ObjIntent = new Intent(PerfilActivity.this, MainActivity.class);
-        ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
-        startActivity(ObjIntent);
-        finish();
+        Intent ObjIntent = null;
+        switch (gsOrigen) {
+            case "Servicios" :
+                ObjIntent = new Intent(PerfilActivity.this, UsuariosActivity.class);
+                ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
+                startActivity(ObjIntent);
+                finish();
+                break;
+            case "MisServicios" :
+                ObjIntent = new Intent(PerfilActivity.this, MisServiciosActivity.class);
+                ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
+                startActivity(ObjIntent);
+                finish();
+                break;
+            case "Favorito" :
+                ObjIntent = new Intent(PerfilActivity.this, MisFavoritosActivity.class);
+                ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
+                startActivity(ObjIntent);
+                finish();
+                break;
+            case "" :
+                ObjIntent = new Intent(PerfilActivity.this, MainActivity.class);
+                ObjIntent.putExtra("Token", !gsTokenInvitado.isEmpty() ? gsTokenInvitado : gsToken);
+                startActivity(ObjIntent);
+                finish();
+                break;
+        }
+    }
+
+    private void obtenerFecha(final String sControl){
+        DatePickerDialog recogerFecha = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                final int mesActual = month + 1;
+                String diaFormateado = (dayOfMonth < 10) ? CERO + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
+                String mesFormateado = (mesActual < 10) ? CERO + String.valueOf(mesActual) : String.valueOf(mesActual);
+
+                switch (sControl) {
+                    case "FechaServicio" :
+                        EditTextFechaServicio.setText(year + BARRA + mesFormateado + BARRA + diaFormateado);
+                        break;
+                }
+
+            }
+        },anio, mes, dia);
+        recogerFecha.show();
+    }
+
+    private void obtenerHora(final String sControl) {
+
+        TimePickerDialog mTimePicker = new TimePickerDialog(this, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                switch (sControl) {
+                    case "HoraServicio" :
+                        EditTextHoraServicio.setText(selectedHour + ":" + selectedMinute);
+                        break;
+                }
+            }
+        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker.show();
     }
 }
