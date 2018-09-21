@@ -606,7 +606,7 @@ public class PerfilActivity extends AppCompatActivity {
                 });
             } else {
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Existen campos por diligenciar, por favor verifique.", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             progressDialog.dismiss();
