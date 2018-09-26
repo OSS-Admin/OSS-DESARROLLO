@@ -50,11 +50,51 @@
 
                 </RelativeLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ReciclerViewUsuarios"
+                <LinearLayout
+                    android:id="@+id/LinearLayoutServiciosSolicitados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"/>
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Solicitados"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="5dp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ReciclerViewServiciosSolicitados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearLayoutServiciosSolicitudes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Solicitudes"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="5dp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ReciclerViewServiciosSolicitudes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -125,17 +125,23 @@ public interface ApiService {
     /*----------------------------------------------------------------------------------------------------------*/
 
     //Servicios
-    @GET("OSS/Usuarios/Servicios/{CodigoUsuario}/")
-    Call<List<Servicio>> ConsultarServicios(@Path("CodigoUsuario") String CodigoUsuario);
+    @GET("OSS/Servicios/CodigoUsuario/{CodigoUsuario}/")
+    Call<List<Servicio>> ConsultarServiciosSolicitados(@Path("CodigoUsuario") String CodigoUsuario);
 
-    @POST("OSS/Usuarios/Servicios/")
+    @GET("OSS/Servicios/CodigoUsuario/{CodigoUsuario}/")
+    Call<List<Servicio>> ConsultarServiciosSolicitudes(@Path("CodigoUsuario") String CodigoUsuario);
+
+    @GET("OSS/Servicios/{Codigo}")
+    Call<List<Servicio>> ConsultarServicio(@Path("Codigo") String Codigo);
+
+    @POST("OSS/Servicios/")
     Call<Void> RegistrarServicio(@Body Servicio servicio);
 
-    @PUT("OSS/Usuarios/Servicios/{Codigo}")
+    @PUT("OSS/Servicios/{Codigo}")
     Call<Void> ActualizarServicio(@Path("Codigo") String codigo, @Body Servicio servicio);
 
-    @DELETE("OSS/Usuarios/Servicios/")
-    Call<Void> EliminarServicio(@Body Servicio servicio);
+    @DELETE("OSS/Servicios/{Codigo}")
+    Call<Void> EliminarServicio(@Path("Codigo") String Codigo);
 
     /*----------------------------------------------------------------------------------------------------------*/
 

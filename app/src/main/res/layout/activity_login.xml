@@ -135,7 +135,7 @@
                 <Button
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Ingresar con Twitter"
+                    android:hint="Ingresar con Google"
                     android:background="@drawable/tw_btn"
                     android:textColorHint="#fff"
                     android:textSize="16dp"

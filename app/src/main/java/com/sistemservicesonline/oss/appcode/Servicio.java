@@ -30,6 +30,9 @@ public class Servicio {
     @SerializedName("Estado")
     @Expose
     private String estado;
+    @SerializedName("NombreUsuario")
+    @Expose
+    private String nombreUsuario;
 
     public String getCodigo() {
         return codigo;
@@ -93,5 +96,13 @@ public class Servicio {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 }

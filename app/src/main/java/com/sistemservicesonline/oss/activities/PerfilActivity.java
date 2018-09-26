@@ -139,7 +139,7 @@ public class PerfilActivity extends AppCompatActivity {
     public final Calendar c = Calendar.getInstance();
     final int mes = c.get(Calendar.MONTH);
     final int dia = c.get(Calendar.DAY_OF_MONTH);
-    final int anio = c.get(Calendar.YEAR) - 18;
+    final int anio = c.get(Calendar.YEAR);
     final int hour = c.get(Calendar.HOUR_OF_DAY);
     final int minute = c.get(Calendar.MINUTE);
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
@@ -583,7 +583,7 @@ public class PerfilActivity extends AppCompatActivity {
                 ObjServicio.setCodigoUsuario(gsTokenInvitado);
                 ObjServicio.setCodigoUsuarioServicio(gsToken);
                 ObjServicio.setFechaServicio(gsFechaServicio.replace("-", "") + " " + gsHoraServicio);
-                ObjServicio.setDescripcion(gsEstadoServicio);
+                ObjServicio.setDescripcion(gsDescripcionServicio);
                 ObjServicio.setEstado("ESTS1");
 
                 Call call = apiService.RegistrarServicio(ObjServicio);
